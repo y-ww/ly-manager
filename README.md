@@ -12,15 +12,15 @@
         
 # 版本号  
         技术                 版本号
-        Springboot           2.1.4.RELEASE
-        Mybatis              3.5
-        Mybatis Plus         3.1.0
-        Shiro                1.4
-        Thymeleaf            2.1.4
-        swagger              2.7.0
+        Springboot           2.1.9.RELEASE
+        Mybatis Plus         3.2.0
+        Shiro                1.4.1
+        Thymeleaf            2.1.9
+        swagger              2.9.2
         JDK                  1.8
         MySQL                5.6
-        Druid                1.1.13
+        Druid                1.1.20
+        lombok               1.18.10
    
  
 
