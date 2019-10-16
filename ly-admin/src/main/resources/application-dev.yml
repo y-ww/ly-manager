@@ -1,0 +1,15 @@
+# 数据源
+spring:
+  datasource:
+    druid:
+      username: root
+      password: 123456
+      url: jdbc:mysql://localhost:3306/ly-manager?characterEncoding=UTF-8&serverTimezone=GMT%2B8
+#      username: LY
+#      password: 123456
+#      # 本人的 oracle 是安装在 docker 中的 故这里 加上 SID  XE
+#      url: jdbc:oracle:thin:@127.0.0.1:1521:XE
+#      driver-class-name: oracle.jdbc.OracleDriver
+
+
+
