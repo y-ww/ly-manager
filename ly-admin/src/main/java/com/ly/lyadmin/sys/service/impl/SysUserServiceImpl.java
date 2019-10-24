@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.ly.common.utils.R;
+import com.ly.common.utils.Result;
 import com.ly.common.utils.StringUtil;
 import com.ly.lyadmin.sys.mapper.SysUserMapper;
 import com.ly.lyadmin.sys.model.SysUser;
@@ -36,14 +36,14 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     }
 
     @Override
-    public R getAllUser(Integer pageNo, Integer pageSize, String searchKey, String searchValue) {
+    public Result getAllUser(Integer pageNo, Integer pageSize, String searchKey, String searchValue) {
         QueryWrapper<SysUser> wrapper = new QueryWrapper<SysUser>();
         if(StringUtil.isNotBlank(searchKey)){
             wrapper.like(searchKey,searchValue);
         }
         IPage<SysUser> page = new Page<SysUser>(pageNo,pageSize);
         IPage<SysUser> iPage = sysUserMapper.selectPage(page, wrapper);
-        return R.ok().put("count",iPage.getTotal()).put("data",iPage.getRecords());
+        return Result.ok().put("count",iPage.getTotal()).put("data",iPage.getRecords());
     }
 
     @Override
