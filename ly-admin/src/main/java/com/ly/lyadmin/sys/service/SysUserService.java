@@ -1,7 +1,7 @@
 package com.ly.lyadmin.sys.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.ly.common.utils.R;
+import com.ly.common.utils.Result;
 import com.ly.lyadmin.sys.model.SysUser;
 
 import java.util.List;
@@ -25,7 +25,7 @@ public interface SysUserService extends IService<SysUser> {
     /**
      *  根据条件 用户名 、手机号、邮箱 模糊查询
      */
-    R getAllUser(Integer pageNo, Integer pageSize, String searchKey, String searchValue);
+    Result getAllUser(Integer pageNo, Integer pageSize, String searchKey, String searchValue);
 
     /**
      *  添加用户
