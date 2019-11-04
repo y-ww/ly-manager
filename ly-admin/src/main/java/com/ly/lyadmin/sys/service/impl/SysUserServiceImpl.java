@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ly.common.utils.Result;
 import com.ly.common.utils.StringUtil;
+import com.ly.lyadmin.shiro.ShiroUtils;
 import com.ly.lyadmin.sys.mapper.SysUserMapper;
 import com.ly.lyadmin.sys.model.SysUser;
 import com.ly.lyadmin.sys.service.SysUserService;
@@ -52,8 +53,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         //sha256加密
         String salt = RandomStringUtils.randomAlphanumeric(20);
         sysUser.setSalt(salt);
-      //  sysUser.setPassword(ShiroUtils.sha256(sysUser.getPassword(),salt));
-        //sysUser.setCreateUserId(ShiroUtils.getUserId());
+        sysUser.setPassword(ShiroUtils.sha256(sysUser.getPassword(),salt));
+        sysUser.setCreateBy(ShiroUtils.getUserId());
         this.save(sysUser);
     }
 }
