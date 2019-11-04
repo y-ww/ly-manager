@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.google.code.kaptcha.Constants;
+/*import com.google.code.kaptcha.Constants;*/
 
 
 
@@ -36,10 +36,10 @@ public class LoginController {
     @RequestMapping(value = "/login",method = RequestMethod.POST)
     public Result login(String username, String password, String captcha){
 
-      /*  String kaptcha = ShiroUtils.getKaptcha(Constants.KAPTCHA_SESSION_KEY);
-        if(!captcha.equalsIgnoreCase(kaptcha)){
-            return Result.error("验证码不正确");
-        }*/
+//        String kaptcha = ShiroUtils.getKaptcha(Constants.KAPTCHA_SESSION_KEY);
+//        if(!captcha.equalsIgnoreCase(kaptcha)){
+//            return Result.error("验证码不正确");
+//        }
 
         try {
             Subject subject = ShiroUtils.getSubject();
