@@ -15,15 +15,18 @@ layui.extend({
         layer = layui.layer;
 
 
-    $("#openConsole").on('click',function () {
+    // 页面加载 显示菜单
+    nav.getNav(0);
+
+/*    $("#openConsole").on('click',function () {
         nav.getNav(0);
         admin.closeAllPage;
-    });
+    });*/
 
-    $("#openArt").on('click',function () {
-        nav.getNav(1);
-        admin.closeAllPage;
-    });
+    // $("#openArt").on('click',function () {
+    //     nav.getNav(1);
+    //     admin.closeAllPage;
+    // });
 
 
 
