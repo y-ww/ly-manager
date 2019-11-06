@@ -46,6 +46,13 @@
             <version>2.3.2</version>
         </dependency>-->
 
+        <!-- ueditor 文本编辑器 -->
+<!--        <dependency>-->
+<!--            <groupId>com.gitee.qdbp.thirdparty</groupId>-->
+<!--            <artifactId>ueditor</artifactId>-->
+<!--            <version>1.4.3.3</version>-->
+<!--        </dependency>-->
+
 
     </dependencies>
 </project>
