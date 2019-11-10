@@ -59,7 +59,7 @@ layui.define(function (exports) {
 
      // 获取当前登录用户信息
      $.ajax({
-         url: 'sys/user/info'
+         url: configs.base_server + 'sys/user/info'
          , type: 'get'
          , data: {}
          , success: function (res) {

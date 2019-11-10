@@ -47,8 +47,6 @@ public class SysMenu implements Serializable {
 
     private Integer type;
 
-    private Integer menuType;
-
     private String icon;
 
     /**
@@ -122,14 +120,6 @@ public class SysMenu implements Serializable {
         this.type = type;
     }
 
-    public Integer getMenuType() {
-        return menuType;
-    }
-
-    public void setMenuType(Integer menuType) {
-        this.menuType = menuType;
-    }
-
     public String getIcon() {
         return icon;
     }
@@ -172,7 +162,6 @@ public class SysMenu implements Serializable {
                 ", url='" + url + '\'' +
                 ", perms='" + perms + '\'' +
                 ", type=" + type +
-                ", menuType=" + menuType +
                 ", icon='" + icon + '\'' +
                 ", orderNum=" + orderNum +
                 ", open=" + open +
