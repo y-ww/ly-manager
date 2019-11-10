@@ -77,7 +77,8 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 
         // 如果是系统管理员，拥有最高权限
         if(userId == Constant.SUPER_ADMIN){
-            return getAllMenuList(menuType,null);
+//            return getAllMenuList(menuType,null);
+            return getAllMenuList(null);
         }
         // 用户菜单列表
 

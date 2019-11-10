@@ -1,4 +1,4 @@
-var editObj=null,ptable=null,treeGrid=null,tableId='treeTable',layer=null;
+var ptable=null,tableId='treeTable';
 
 var define = layui.config({
     base : '../../../../statics/modules/extend-table/'
@@ -23,8 +23,10 @@ var define = layui.config({
             ,treeShowName:'name'//以树形式显示的字段
             ,cols: [[
                 {type:'checkbox', fixed: 'left'}
-                ,{field:'name',width:200, title: '菜单名称'}
-                ,{field:'icon',width:100, title: '图标'}
+                ,{field:'name',width:300, title: '菜单名称'}
+
+                ,{title: '图标',toolbar: '#table-menu-icon', minWidth: 80, width: 100}
+
                 ,{field:'type',width:100, title: '类型'}
                 ,{field:'menuId',width:100, title: '排序'}
                 ,{field:'url',width:100, title: '路由'}

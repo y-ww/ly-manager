@@ -51,4 +51,12 @@ public class PageController {
         return "views/sys"+"/"+url+"/" + page;
     }
 
+    /**
+     *  内容信息等 跳转页面
+     */
+    @RequestMapping("/bus/{url}/{page}")
+    public String busPage(@PathVariable String url, @PathVariable String page){
+        return "views/bus"+"/"+url+"/" + page;
+    }
+
 }
