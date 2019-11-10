@@ -54,7 +54,8 @@ public class SysMenuController extends AbstractController{
                 sysMenu.setParentName(parentMenu.getName());
             }
         }
-        return Result.ok().put("data",menuList);
+        return Result.ok().put("data",menuList).put("count",924).put("is",true).put("tip","操作成功");
+
     }
 
 
