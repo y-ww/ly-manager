@@ -23,19 +23,17 @@ var define = layui.config({
             ,treeShowName:'name'//以树形式显示的字段
             ,cols: [[
                 {type:'checkbox', fixed: 'left'}
-                ,{field:'name',width:300, title: '菜单名称'}
-
+                ,{field:'name',width:200, title: '菜单名称'}
                 ,{title: '图标',toolbar: '#table-menu-icon', minWidth: 80, width: 100}
-
-                ,{field:'type',width:100, title: '类型'}
+                ,{title: '类型',toolbar: '#table-menu-type', minWidth: 80, width: 100}
                 ,{field:'menuId',width:100, title: '排序'}
-                ,{field:'url',width:100, title: '路由'}
-                ,{field:'url',width:100, title: '授权标识'}
-                ,{width:100,title: '操作', align:'center'/*toolbar: '#barDemo'*/
+                ,{field:'url',width:250, title: '路由'}
+                ,{field:'',width:200, title: '授权标识'}
+                ,{title: '操作', align:'center'
                     ,templet: function(d){
                         var html='';
-                        var addBtn='<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="add">添加</a>';
-                        var delBtn='<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>';
+                        var addBtn='<a class="layui-btn layui-btn-xs" lay-event="add"><i class="layui-icon layui-icon-edit"></i>编辑</a>';
+                        var delBtn='<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i class="layui-icon layui-icon-delete">删除</a>';
                         return addBtn+delBtn;
                     }
                 }
