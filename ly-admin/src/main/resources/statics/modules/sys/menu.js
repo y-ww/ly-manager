@@ -49,5 +49,66 @@ var define = layui.config({
             }
         });
 
+        // 设置菜单默认关闭
+
+
+    //事件
+    var active = {
+
+        add: function(){
+            layer.open({
+                type: 2
+                ,title: '添加'
+                ,content: 'menuform.html'
+                ,maxmin: true
+                ,area: ['650px', '530px']
+                ,btn: ['确定', '取消']
+                ,yes: function(index, layero){
+                    var iframeWindow = window['layui-layer-iframe'+ index]
+                        ,submitID = 'LAY-user-front-submit'
+                        ,submit = layero.find('iframe').contents().find('#'+ submitID);
+
+                    //监听提交
+                    iframeWindow.layui.form.on('submit('+ submitID +')', function(data){
+
+                        var field = data.field; //获取提交的字段
+                        var status;
+                        if('switch' in field){  // 包含该元素
+                            status = 1 ;
+                        }else{
+                            status = 0;
+                        }
+                        field.status = status;
+                        console.log(field);
+                        //提交 Ajax 成功后，静态更新表格中的数据
+                        $.ajax({
+                            url :  "../../sys/user/save"
+                            ,contentType: "application/json"
+                            ,type : 'post'
+                            ,data : JSON.stringify(field)
+                            ,success :function (data) {
+                                if(data.code == 0){
+                                    layer.msg("添加成功",{icon: 1});
+
+                                }else{
+                                    layer.msg(data.msg,{icon: 2});
+                                }
+                                table.reload('LAY-user-manage');
+                            }
+                        });
+                        layer.close(index); //关闭弹层
+                    });
+                    submit.trigger('click');
+                }
+            });
+        }
+    };
+
+    $('.layui-btn.ud-btn').on('click', function(){
+        var type = $(this).data('type');
+        active[type] ? active[type].call(this) : '';
+    });
+
+
 exports('menu', {})
 });
