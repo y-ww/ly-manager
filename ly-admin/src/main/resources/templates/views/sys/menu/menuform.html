@@ -16,7 +16,7 @@
     <div class="layui-form-item">
       <label class="layui-form-label">类&emsp;&emsp;型</label>
       <div class="layui-input-block">
-        <input type="radio" lay-filter="radio-btn"  name="type" value="1" title="菜单" checked>
+        <input type="radio" lay-filter="radio-btn" name="type" value="1" title="菜单" checked>
         <input type="radio" lay-filter="radio-btn" name="type" value="2" title="按钮" >
       </div>
     </div>
@@ -57,19 +57,19 @@
         <input type="text" name="icon" lay-verify="icon" id="icon" placeholder="图标" autocomplete="off" class="layui-input">
       </div>
     </div>
+    <hr/>
+    &emsp;&emsp;&emsp;
     <span class="custom-icon-span">图标参考网址:  https://www.iconfont.cn</span>
     <div class="layui-form-item layui-hide">
       <input type="button" lay-submit lay-filter="lay-submit" id="lay-submit" value="确认">
     </div>
   </div>
 
-  <script src="${request.contextPath}/statics/plugins/layui/layui.js"></script>
+  <script src="../../../../statics/plugins/layui/layui.js"></script>
   <script>
   layui.config({
-      base: '${request.contextPath}/statics/' //静态资源所在路径
-  }).extend({
-    index: 'lib/index' //主入口模块
-  }).use(['index', 'menu']);
+    base : '../../../../statics/modules/' //静态资源所在路径
+  }).use('form');
   </script>
 </body>
 </html>
