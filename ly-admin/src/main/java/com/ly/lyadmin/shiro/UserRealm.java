@@ -2,9 +2,8 @@ package com.ly.lyadmin.shiro;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.ly.common.utils.Constant;
-import com.ly.lyadmin.sys.mapper.SysUserMapper;
-import com.ly.lyadmin.sys.model.SysUser;
-import org.apache.commons.lang3.StringUtils;
+import com.ly.lyadmin.modules.sys.mapper.SysUserMapper;
+import com.ly.lyadmin.modules.sys.model.SysUser;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authc.credential.CredentialsMatcher;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;

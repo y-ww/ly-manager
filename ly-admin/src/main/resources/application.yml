@@ -51,5 +51,6 @@ logging:
     com:
       ly:
         lyadmin:
-          sys:
-            mapper: debug
+          modules:
+            sys:
+              mapper: debug
