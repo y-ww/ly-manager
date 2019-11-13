@@ -2,6 +2,7 @@
  *  内容管理
  */
 
+
 layui.define(['table','form','upload','laytpl'],function (exports) {
 
     var $ = layui.$,
@@ -12,6 +13,65 @@ layui.define(['table','form','upload','laytpl'],function (exports) {
         upload = layui.upload,
         laytpl= layui.laytpl;
 
+
+
+    //普通图片上传
+
+    var uploadInst = upload.render({
+        elem: '#uploadimage'
+        ,url: '/pic/upload/'
+        ,before: function(obj){
+            //预读本地文件示例，不支持ie8
+            obj.preview(function(index, file, result){
+                $('#uploadimg').attr('src', result); //图片链接（base64）
+            });
+        }
+        ,done: function(res){
+            //如果上传失败
+            if(res.code > 0){
+                return layer.msg('上传失败');
+            }
+            //上传成功
+            var img_url = res.url;
+            $("#image_url").val(img_url);
+        }
+        ,error: function(){
+            //演示失败状态，并实现重传
+            var demoText = $('#demoText');
+            demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
+            demoText.find('.demo-reload').on('click', function(){
+                uploadInst.upload();
+            });
+        }
+    });
+
+    //监听提交
+    form.on('submit(lay-user-submit)', function(data){
+        var html = UE.getEditor('editor').getAllHtml();
+        data.field.html = html;
+        layer.alert(JSON.stringify(data.field), {
+            title: '最终的提交信息'
+        })
+
+        var field = data.field;
+
+        $.ajax({
+            url : "../../bus/content/save"
+            ,type : 'post'
+            ,data : field
+            ,success :function (data) {
+                if(data.code == 0){
+                    layer.msg("添加成功",{icon: 1});
+
+                }else{
+                    layer.msg(data.msg,{icon: 2});
+                }
+                table.reload('lay-tab');
+            }
+        });
+
+        return false;
+    });
 
 
     //实例化编辑器
@@ -148,14 +208,14 @@ layui.define(['table','form','upload','laytpl'],function (exports) {
     });
 
     // 失去焦点不生效
-    /*function isFocus(e){
+    function isFocus(e){
         alert(UE.getEditor('editor').isFocus());
         UE.dom.domUtils.preventDefault(e)
     }
     function setblur(e){
         UE.getEditor('editor').blur();
         UE.dom.domUtils.preventDefault(e)
-    }*/
+    }
 
 
 
@@ -179,6 +239,10 @@ layui.define(['table','form','upload','laytpl'],function (exports) {
             UE.dom.domUtils.removeAttributes(btn, ["disabled"]);
         }
     }
+
+
+
+    // 图片上传
 
 
     exports('content', {})
