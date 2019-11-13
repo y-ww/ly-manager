@@ -1,7 +1,7 @@
 package com.ly.lyadmin.shiro;
 
 import com.ly.common.exception.RRException;
-import com.ly.lyadmin.sys.model.SysUser;
+import com.ly.lyadmin.modules.sys.model.SysUser;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.session.Session;
