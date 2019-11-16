@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ly.lyadmin.modules.bus.mapper.TColumnMapper" >
+  <resultMap id="BaseResultMap" type="com.ly.lyadmin.modules.bus.model.TColumn" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="column_name" property="columnName" jdbcType="VARCHAR" />
+    <result column="parent_id" property="parentId" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="pt_code" property="ptCode" jdbcType="VARCHAR" />
+    <result column="linkurl" property="linkurl" jdbcType="VARCHAR" />
+    <result column="order_num" property="orderNum" jdbcType="INTEGER" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, column_name, parent_id,status,pt_code,linkurl
+  </sql>
+
+  <select id="queryListParentId" resultMap="BaseResultMap">
+      select * from t_column where parent_id = #{parentId} and pt_code = #{ptCode} and status = 1 order by order_num asc
+  </select>
+
+</mapper>
