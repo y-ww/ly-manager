@@ -19,7 +19,7 @@ spring:
 mybatis-plus:
   mapper-locations: classpath:/mapper/*/*Mapper.xml
   #实体扫描，多个package用逗号或者分号分隔
-  type-aliases-package: com.ly.*.*.model
+  type-aliases-package: com.ly.*.*.*.model
   check-config-location: true
   configuration:
     #是否开启自动驼峰命名规则（camel case）映射
@@ -46,11 +46,11 @@ mybatis-plus:
       logic-not-delete-value: 1
 
       # 日志级别配置
-logging:
-  level:
-    com:
-      ly:
-        lyadmin:
-          modules:
-            sys:
-              mapper: debug
+#logging:
+#  level:
+#    com:
+#      ly:
+#        lyadmin:
+#          modules:
+#            sys:
+#              mapper: debug
