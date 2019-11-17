@@ -197,15 +197,15 @@ layui.define(['table','form','upload','laytpl'],function (exports) {
         UE.getEditor('editor').destroy();
     });
 
-    $("#isFocus").onmousedown(function(event){
-        alert(UE.getEditor('editor').isFocus());
-        UE.dom.domUtils.preventDefault(event);
-    });
-
-    $("#setblur").onmousedown(function(event){
-        UE.getEditor('editor').blur();
-        UE.dom.domUtils.preventDefault(event);
-    });
+    // $("#isFocus").onmousedown(function(event){
+    //     alert(UE.getEditor('editor').isFocus());
+    //     UE.dom.domUtils.preventDefault(event);
+    // });
+    //
+    // $("#setblur").onmousedown(function(event){
+    //     UE.getEditor('editor').blur();
+    //     UE.dom.domUtils.preventDefault(event);
+    // });
 
     // 失去焦点不生效
     function isFocus(e){
