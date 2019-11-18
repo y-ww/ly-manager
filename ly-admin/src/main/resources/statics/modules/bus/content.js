@@ -33,7 +33,8 @@ layui.define(['table','form','upload','laytpl'],function (exports) {
             }
             //上传成功
             var img_url = res.url;
-            $("#image_url").val(img_url);
+            alert("测试路径：："+img_url);
+            $("#image_url").val('上传成功'+img_url);
         }
         ,error: function(){
             //演示失败状态，并实现重传
@@ -80,9 +81,9 @@ layui.define(['table','form','upload','laytpl'],function (exports) {
 
     UE.Editor.prototype._bkGetActionUrl = UE.Editor.prototype.getActionUrl;
     UE.Editor.prototype.getActionUrl = function(action) {
-        if (action == 'uploadimage' || action == 'uploadscrawl' || action == 'uploadimage') {
-            return 'http://localhost:8866/imgUpload';
-            //'http://localhost:8080/imgUpload';为方法imgUpload的访问地址
+        if (action == 'uploadimage' || action == 'uploadscrawl' ||action=='uploadvideo') {
+           // alert("http://localhost:8866/ueditor/imgUpload");
+            return 'http://127.0.0.1:8866/ueditor/imgUpload';
         } else {
             return this._bkGetActionUrl.call(this, action);
         }
@@ -92,6 +93,7 @@ layui.define(['table','form','upload','laytpl'],function (exports) {
 
     $("#getAllHtml").click(function(){
         alert(UE.getEditor('editor').getAllHtml());
+        console.log(UE.getEditor('editor').getAllHtml());
     });
 
     $("#getContent").click(function(){
@@ -255,5 +257,5 @@ layui.define(['table','form','upload','laytpl'],function (exports) {
     // 图片上传
 
 
-    exports('content', {})
+    exports('content', { });
 });

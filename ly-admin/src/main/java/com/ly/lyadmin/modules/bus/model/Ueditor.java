@@ -1,7 +1,10 @@
 package com.ly.lyadmin.modules.bus.model;
 
 public class Ueditor {
-    private  String state;private  String url;private  String title;private  String original;
+    private  String state;
+    private  String url;
+    private  String title;
+    private  String original;
 
     public String getState() {
         return state;
