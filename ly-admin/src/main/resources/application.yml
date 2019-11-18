@@ -57,12 +57,14 @@ mybatis-plus:
       #文件配置
 
 
-      # 日志级别配置
-#logging:
-#  level:
-#    com:
-#      ly:
-#        lyadmin:
-#          modules:
-#            sys:
-#              mapper: debug
+ # 日志级别配置
+logging:
+  level:
+    com:
+      ly:
+        lyadmin:
+          modules:
+            sys:
+              mapper: debug
+            bus:
+              mapper: debug
