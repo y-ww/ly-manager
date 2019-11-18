@@ -14,6 +14,15 @@ spring:
     cache: false                   #开发配置为false,避免修改模板还要重启服务器  注意 页面修改代码之后，使用 Ctrl + F9
     encoding: UTF-8
     suffix: .html                   #名称的后缀
+    # 上传大小
+  servlet:
+    multipart:
+      enabled: true               # 配置文件传输
+      file-size-threshold: 0
+      max-file-size: 100MB       #  单个数据大小
+      max-request-size: 100MB   # 总数据大小
+
+
 
     # mybatis-plus 配置
 mybatis-plus:
@@ -44,6 +53,9 @@ mybatis-plus:
       logic-delete-value: 0
       #逻辑未删除值
       logic-not-delete-value: 1
+
+      #文件配置
+
 
       # 日志级别配置
 #logging:
