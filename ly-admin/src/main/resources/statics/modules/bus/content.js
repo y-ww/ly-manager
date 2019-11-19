@@ -48,8 +48,19 @@ layui.define(['table','form','upload','laytpl'],function (exports) {
 
     //监听提交
     form.on('submit(lay-user-submit)', function(data){
-        var html = UE.getEditor('editor').getAllHtml();
-        data.field.html = html;
+        var content = UE.getEditor('editor').getContent();
+        //  拼接 html
+        var prehtml = "<html>\n" +
+            "<head>\n" +
+            "<meta http-equiv=\"Content-Type\" content=\"text/html;charset=utf-8\"/>\n" +
+            "</head>\n" +
+            "\n" +
+            "\t<body>";
+
+        var endhtml = "\t</body>\n" +
+            "</html>"
+
+        data.field.html = prehtml + content + endhtml;
         layer.alert(JSON.stringify(data.field), {
             title: '最终的提交信息'
         })
@@ -79,12 +90,25 @@ layui.define(['table','form','upload','laytpl'],function (exports) {
     //建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
     var ue = UE.getEditor('editor');
 
+    /**
+     *   自定义请求地址  参考地址 ： http://fex.baidu.com/ueditor/#qa-customurl
+     *
+     *   uploadimage：//执行上传图片或截图的action名称
+     *   uploadscrawl：//执行上传涂鸦的action名称
+     *   uploadvideo：//执行上传视频的action名称
+     *   uploadfile：//controller里,执行上传视频的action名称
+     *   catchimage：//执行抓取远程图片的action名称
+     *   listimage：//执行列出图片的action名称
+     *   listfile：//执行列出文件的action名称
+     */
     UE.Editor.prototype._bkGetActionUrl = UE.Editor.prototype.getActionUrl;
     UE.Editor.prototype.getActionUrl = function(action) {
-        if (action == 'uploadimage' || action == 'uploadscrawl' ||action=='uploadvideo') {
+        if (action == 'uploadimage' || action == 'uploadscrawl') {
            // alert("http://localhost:8866/ueditor/imgUpload");
             return 'http://127.0.0.1:8866/ueditor/imgUpload';
-        } else {
+        }else if(action=='uploadvideo'){
+            return 'http://127.0.0.1:8866/ueditor/vedioUpload';
+        }else {
             return this._bkGetActionUrl.call(this, action);
         }
     }
@@ -102,6 +126,7 @@ layui.define(['table','form','upload','laytpl'],function (exports) {
         arr.push("内容为：");
         arr.push(UE.getEditor('editor').getContent());
         alert(arr.join("\n"));
+        console.log(UE.getEditor('editor').getContent());
     });
 
     $("#setContent").click(function(){
