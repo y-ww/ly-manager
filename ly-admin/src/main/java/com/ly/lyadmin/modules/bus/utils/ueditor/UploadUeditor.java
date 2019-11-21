@@ -1,7 +1,6 @@
 package com.ly.lyadmin.modules.bus.utils.ueditor;
 
 import com.alibaba.fastjson.JSON;
-import com.ly.lyadmin.modules.bus.model.Ueditor;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;

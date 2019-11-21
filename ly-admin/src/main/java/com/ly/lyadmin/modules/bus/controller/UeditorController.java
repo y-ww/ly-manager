@@ -1,7 +1,7 @@
 package com.ly.lyadmin.modules.bus.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.ly.lyadmin.modules.bus.model.Ueditor;
+import com.ly.lyadmin.modules.bus.utils.ueditor.Ueditor;
 import com.ly.lyadmin.modules.bus.utils.ueditor.PublicMsg;
 import com.ly.lyadmin.modules.bus.utils.ueditor.UploadUeditor;
 import org.springframework.beans.factory.annotation.Value;
