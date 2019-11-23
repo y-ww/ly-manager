@@ -1,4 +1,4 @@
-package com.ly.lyadmin.modules.bus.model;
+package com.ly.lyadmin.modules.bus.utils.ueditor;
 
 public class Ueditor {
     private  String state;

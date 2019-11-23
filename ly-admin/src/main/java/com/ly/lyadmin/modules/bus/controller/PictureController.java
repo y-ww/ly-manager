@@ -26,6 +26,9 @@ public class PictureController {
     @Value("${IMAGE_SERVER_URL}")
     private String IMAGE_SERVER_URL;
 
+    @Value("${IMAGE_UPLOAD_URL}")
+    private String IMAGE_UPLOAD_URL;
+
     /**
      *  图片上传
      */
@@ -33,7 +36,7 @@ public class PictureController {
     public Result upload(MultipartFile file) {
 
         String url;
-        String path = FileUpload.upload(file, IMAGE_SERVER_URL, "/Users/ming/local/");
+        String path = FileUpload.upload(file, IMAGE_SERVER_URL, IMAGE_UPLOAD_URL);
         return Result.ok().put("url",path);
     }
 
