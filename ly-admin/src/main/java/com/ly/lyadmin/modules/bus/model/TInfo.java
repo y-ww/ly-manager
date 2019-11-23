@@ -15,38 +15,42 @@ public class TInfo implements Serializable {
 
     private static final long serialVersionUID = 2556286541773861083L;
 
-    private String id;
+    private String id;//ID
 
-    private String title;
+    private String title; //标题
 
-    private String summary;
+    private String summary;//摘要
 
-    private String content;
+    private String content;//内容
 
-    private String minPicAddress;
+    private String minPicAddress;//缩略图地址
 
-    private String picAddress;
+    private String picAddress;//图片地址
 
-    private String picName;
+    private String picName;//图片名称
 
-    private String videoAddress;
+    private String videoAddress;//视频地址
 
-    private String colid;
+    private String colid;//栏目ID
 
-    private String type;
+    private String type;//信息类型（暂时不用）
 
-    private String platform;
+    private String platform;//平台ID
 
-    private Integer isdelete;
+    private Integer isdelete;//是否删除 1 使用 0 删除
 
-    private Integer isFbtype;
+    private Integer isFbtype;//是否发布 1 发布 0 未发布
 
-    private Integer orderNum;
+    private Integer orderNum;//排序字段
 
-    private Integer personid;
+    private String integral;//积分
+
+    private Integer amountRead;//阅读量
+
+    private Integer personid;//发布人编号
 
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date createTime;
+    private Date createTime;//创建时间
 
     public String getId() {
         return id;
@@ -160,6 +164,22 @@ public class TInfo implements Serializable {
         this.orderNum = orderNum;
     }
 
+    public String getIntegral() {
+        return integral;
+    }
+
+    public void setIntegral(String integral) {
+        this.integral = integral;
+    }
+
+    public Integer getAmountRead() {
+        return amountRead;
+    }
+
+    public void setAmountRead(Integer amountRead) {
+        this.amountRead = amountRead;
+    }
+
     public Integer getPersonid() {
         return personid;
     }
@@ -193,6 +213,8 @@ public class TInfo implements Serializable {
                 ", isdelete=" + isdelete +
                 ", isFbtype=" + isFbtype +
                 ", orderNum=" + orderNum +
+                ", integral=" + integral +
+                ", amountRead=" + amountRead +
                 ", personid=" + personid +
                 ", createTime=" + createTime +
                 '}';

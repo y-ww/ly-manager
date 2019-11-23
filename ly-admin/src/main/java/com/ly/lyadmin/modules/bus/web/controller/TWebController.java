@@ -56,7 +56,7 @@ public class TWebController {
      * @Email: lmm_work@163.com
      * @Date: 2019/11/16 4:47 下午
      */
-    @ApiOperation(value = "网站菜单" , notes="网站菜单")
+    @ApiOperation(value = "网站栏目菜单接口" , notes="网站栏目菜单接口")
     @RequestMapping(value = "/indexlist",method = RequestMethod.POST)
     public Result indexlist(String parentId,String ptCode){
         // 首页网站
@@ -78,7 +78,7 @@ public class TWebController {
      * @Email: lmm_work@163.com
      * @Date: 2019/11/22 12:18 上午
      */
-    @ApiOperation(value = "十大平台列表" , notes="十大平台列表")
+    @ApiOperation(value = "十大平台列表接口" , notes="十大平台列表接口")
     @RequestMapping(value = "/sdptList",method = RequestMethod.POST)
     public Result sdptList(String keyname){
 
@@ -98,7 +98,7 @@ public class TWebController {
      * @Email: lmm_work@163.com
      * @Date:
      */
-    @ApiOperation(value = "根据内容编号查询接口" , notes="根据内容编号查询接口")
+    @ApiOperation(value = "新闻动态内容查询接口" , notes="新闻动态内容查询接口")
     @RequestMapping(value = "/searchContentById",method = RequestMethod.POST)
     public Result searchContentById(String id){
         QueryWrapper<TInfo> queryWrapper = new QueryWrapper<>();
@@ -108,6 +108,25 @@ public class TWebController {
         return Result.ok().put("tInfoList",tInfoList);
     }
 
+
+    /**
+     * @Description: 根据 平台编号 栏目编号 查询 文章 列表
+     * @Param:
+     * @Return:
+     * @Author: SLIGHTLEE
+     * @Email: lmm_work@163.com
+     * @Date:
+     */
+    @ApiOperation(value = "新闻动态列表查询接口" , notes="新闻动态列表查询接口")
+    @RequestMapping(value = "/searchContentByPtCodeId",method = RequestMethod.POST)
+    public Result searchContentByPtCodeId(String colid,String ptCode){
+        QueryWrapper<TInfo> queryWrapper = new QueryWrapper<>();
+        queryWrapper.like("colid",colid);
+        queryWrapper.like("platform",ptCode);
+        queryWrapper.eq("isdelete",Constant.STATUS_ISUSER);
+        List<TInfo> tInfoList = tInfoService.list(queryWrapper);
+        return Result.ok().put("tInfoList",tInfoList);
+    }
 
 
     /**
@@ -120,10 +139,12 @@ public class TWebController {
      */
     @ApiOperation(value = "站内搜索查询接口" , notes="站内搜索查询接口")
     @RequestMapping(value = "/search",method = RequestMethod.POST)
-    public Result search(String title){
+    public Result search(String title,String ptCode){
         QueryWrapper<TInfo> queryWrapper = new QueryWrapper<>();
         queryWrapper.like("title",title);
+        queryWrapper.eq("platform",ptCode);
         queryWrapper.eq("isdelete",Constant.STATUS_ISUSER);
+        queryWrapper.eq("is_fbtype",Constant.STATUS_ISUSER);
         queryWrapper.orderByDesc("create_time");
         List<TInfo> tInfoList = tInfoService.list(queryWrapper);
         return Result.ok().put("tInfoList",tInfoList);

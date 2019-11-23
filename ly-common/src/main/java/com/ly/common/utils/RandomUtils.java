@@ -117,7 +117,7 @@ public class RandomUtils {
      * @param length
      * @return
      */
-    private static String toFixedLengthStringByUUID(int length) {
+    public static String toFixedLengthStringByUUID(int length) {
 
         //也可以通过UUID来随机生成
         UUID uuid = UUID.randomUUID();

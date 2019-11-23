@@ -48,7 +48,7 @@ layui.define(['table','form','upload','laytpl'],function (exports) {
 
     //监听提交
     form.on('submit(lay-user-submit)', function(data){
-        var content = UE.getEditor('editor').getContent();
+        var uecontent = UE.getEditor('editor').getContent();
         //  拼接 html
         var prehtml = "<html>\n" +
             "<head>\n" +
@@ -60,7 +60,7 @@ layui.define(['table','form','upload','laytpl'],function (exports) {
         var endhtml = "\t</body>\n" +
             "</html>"
 
-        data.field.html = prehtml + content + endhtml;
+        data.field.content = prehtml + uecontent + endhtml;
         layer.alert(JSON.stringify(data.field), {
             title: '最终的提交信息'
         })

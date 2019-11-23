@@ -1,4 +1,4 @@
-# y-security 介绍
+# ly-manager 介绍
     这是基于 Springboot、Mybatis、Mybatis Plus、Shiro权限框架 等技术搭建的后台管理项目。
     Swagger 接口工具 、Thymeleaf 模板引擎、logback 日志组件、layui-Template
 
