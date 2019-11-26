@@ -115,8 +115,8 @@ layui.define(['table', 'form'], function(exports){
 
        layer.open({
         type: 2
-        ,title: '编辑用户'
-        ,content: 'userform.html'
+        ,title: '编辑内容'
+        ,content: 'contentform.html'
         ,maxmin: true
         ,area: ['500px', '450px']
         ,btn: ['确定', '取消']
@@ -170,17 +170,23 @@ layui.define(['table', 'form'], function(exports){
           var div = layero.find('iframe').contents().find('#layuiadmin-form-useradmin');
 
             var userdata = obj.data;
-            for(var key in userdata){
-                var ac = userdata[key]
-                div.find('#'+key +'').val(userdata[key]);
-                if (key == 'status'&& userdata[key] == 1 ){
-                    div.find('#'+key +'').attr("checked",true);
-                }
-            }
+
+               div.find('#title').val(userdata.title);
+               div.find('#editor_val').val(userdata.content);
+               div.find('#uploadimg').attr("src",userdata.minPicAddress);
+
         }
       });
     }
   });
 
-  exports('useradmin', {})
+    var ue = UE.getEditor('editor');
+
+    ue.ready(function() {
+        var html = $("#editor_val").val();
+        UE.getEditor('editor').execCommand('insertHtml',html);
+    });
+
+
+    exports('contentlist', {})
 });
