@@ -33,7 +33,7 @@ layui.define(['table','form','upload','laytpl'],function (exports) {
             }
             //上传成功
             var img_url = res.url;
-            alert("测试路径：："+img_url);
+            //alert("测试路径：："+img_url);
             $("#image_url").val('上传成功'+img_url);
         }
         ,error: function(){
@@ -278,9 +278,10 @@ layui.define(['table','form','upload','laytpl'],function (exports) {
     }
 
 
+    ue.ready(function() {
+        UE.getEditor('editor').execCommand('insertHtml', '');
 
-    // 图片上传
-
+    });
 
     exports('content', { });
 });
