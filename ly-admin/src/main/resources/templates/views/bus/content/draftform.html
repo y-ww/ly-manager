@@ -63,7 +63,7 @@
           <div class="layui-form-item">
             <div class="layui-input-block">
               <button type="submit" class="layui-btn" lay-submit="" lay-filter="lay-user-submit">发布内容</button>
-                <button type="submit" class="layui-btn layui-btn-primary" lay-submit="" lay-filter="lay-user-content">保存到草稿箱</button>
+              <button type="submit" class="layui-btn layui-btn-primary" lay-submit="" lay-filter="lay-user-content">保存到草稿箱</button>
             </div>
           </div>
 
@@ -86,7 +86,7 @@
     base : '../../../../statics/modules/' //静态资源所在路径
   }).extend({
     index : 'index',
-      draftform : 'bus/draftform',
+    draftform : 'bus/draftform',
     contentform : 'bus/contentform'
   }).use(['index','draftform','contentform','upload']);
 

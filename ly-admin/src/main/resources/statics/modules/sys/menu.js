@@ -93,7 +93,7 @@ var define = layui.config({
                                 }else{
                                     layer.msg(data.msg,{icon: 2});
                                 }
-                                table.reload('LAY-user-manage');
+                                table.reload('LAY-table-manage');
                             }
                         });
                         layer.close(index); //关闭弹层

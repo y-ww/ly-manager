@@ -35,9 +35,9 @@ public class SwaggerConfig{
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("Spring Boot中使用Swagger2构建RESTful APIs")
-                .description("ly-admin文档")
-                .termsOfServiceUrl("http://www.baidu.com")
+                .title("RESTful API")
+                .description("接口文档")
+//                .termsOfServiceUrl("http://www.baidu.com")
                 .version("1.0.0")
                 .build();
     }

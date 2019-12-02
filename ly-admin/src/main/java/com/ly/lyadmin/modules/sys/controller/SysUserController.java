@@ -49,7 +49,7 @@ public class SysUserController extends AbstractController{
      *   添加用户
      */
     @SysLog("添加用户")
-    @ApiOperation(value = "添加用户" , notes="添加用户")
+ //   @ApiOperation(value = "添加用户" , notes="添加用户")
     @RequestMapping(value = "/save",method = RequestMethod.POST)
     public Result save(@RequestBody SysUser sysUser){
 
@@ -63,7 +63,7 @@ public class SysUserController extends AbstractController{
      *   修改用户
      */
     @SysLog("修改用户")
-    @ApiOperation(value = "修改用户" , notes="修改用户")
+  //  @ApiOperation(value = "修改用户" , notes="修改用户")
     @RequestMapping(value = "/update",method = RequestMethod.POST)
     public Result update(@RequestBody SysUser sysUser){
         sysUserService.updateById(sysUser);
@@ -75,8 +75,8 @@ public class SysUserController extends AbstractController{
      *   删除用户
      */
     @SysLog("删除用户")
-    @ApiOperation(value = "删除用户" , notes="删除用户")
-    @RequestMapping(value = "/delete",method = RequestMethod.GET)
+   // @ApiOperation(value = "删除用户" , notes="删除用户")
+    @RequestMapping(value = "/delete",method = RequestMethod.POST)
     public Result delete(@RequestBody Long[] userIds){
         if(ArrayUtils.contains(userIds,1L)){
             return Result.error("系统管理员不能删除");
@@ -100,7 +100,7 @@ public class SysUserController extends AbstractController{
      *  用户信息 不分页
      * @return userList
      */
-    @ApiOperation(value = "用户信息" , notes="用户信息")
+  //  @ApiOperation(value = "用户信息" , notes="用户信息")
     @RequestMapping(value = "/userlist",method = RequestMethod.GET)
     public Result list(){
         List<SysUser> list = sysUserService.list();

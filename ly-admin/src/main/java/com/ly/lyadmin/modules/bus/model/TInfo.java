@@ -47,7 +47,7 @@ public class TInfo implements Serializable {
 
     private Integer amountRead;//阅读量
 
-    private Integer personid;//发布人编号
+    private Long personid;//发布人编号
 
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;//创建时间
@@ -180,11 +180,11 @@ public class TInfo implements Serializable {
         this.amountRead = amountRead;
     }
 
-    public Integer getPersonid() {
+    public Long getPersonid() {
         return personid;
     }
 
-    public void setPersonid(Integer personid) {
+    public void setPersonid(Long personid) {
         this.personid = personid;
     }
 

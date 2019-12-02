@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * @Description: TODO
+ * @Description: 轮播图
  * @Author SLIGHTLEE
  * @Date 2019/11/22 1:15 上午
  * @Version V1.0

@@ -5,7 +5,9 @@
   * @Email  lmm_work@163.com
   * @Date   2019/1/18 15:11
 　*/
-layui.define('form', function(exports){
+layui.extend({
+    configs: 'config'
+}).define(['form','configs'], function(exports){
   var $ = layui.$
   ,layer = layui.layer
   ,configs = layui.configs
@@ -60,7 +62,7 @@ layui.define('form', function(exports){
         var c = obj;
         //请求登入接口
         $.ajax({
-            url: 'sys/login' //实际使用请改成服务端真实接口
+            url: configs.base_server +'sys/login' //实际使用请改成服务端真实接口
             ,type:'post'
             ,data: obj.field
             ,success: function(data){

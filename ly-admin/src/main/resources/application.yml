@@ -53,6 +53,8 @@ mybatis-plus:
       logic-delete-value: 0
       #逻辑未删除值
       logic-not-delete-value: 1
+      #字段策略 IGNORED:"忽略判断",NOT_NULL:"非 NULL 判断"),NOT_EMPTY:"非空判断"
+      field-strategy: not_null
 
       #文件配置
 

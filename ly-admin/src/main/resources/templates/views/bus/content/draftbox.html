@@ -60,7 +60,7 @@
 <!--      {{d.isFbtype==1?'已发布':'未发布'}}-->
         {{# if(d.isFbtype == '1'){d.isFbtype ='已发布' }}
         <span style="color: #007400">{{d.isFbtype}}</span>
-        {{# } }}
+{{# } }}
        {{# if(d.isFbtype == '0'){d.isFbtype ='未发布' }}
        <span style="color: #ff791d">{{d.isFbtype}}</span>
        {{# } }}
@@ -87,8 +87,8 @@
       base : '../../../../statics/modules/' //静态资源所在路径
   }).extend({
     index : 'index',
-    contentlist : 'bus/contentlist'
-  }).use(['index','contentlist','table']);
+    draftbox : 'bus/draftbox'
+  }).use(['index','draftbox','table']);
 
   </script>
 </body>

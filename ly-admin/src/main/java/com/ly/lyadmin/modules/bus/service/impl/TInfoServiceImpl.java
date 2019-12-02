@@ -13,6 +13,8 @@ import com.ly.lyadmin.modules.sys.model.SysUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @Description: TODO
  * @Author SLIGHTLEE
@@ -36,7 +38,9 @@ public class TInfoServiceImpl extends ServiceImpl<TInfoMapper, TInfo> implements
 
         queryWrapper.eq("platform",ptCode);
         queryWrapper.eq("personid",userId);
-
+        queryWrapper.eq("isdelete",1);
+        queryWrapper.eq("is_fbtype",1);
+        queryWrapper.orderByDesc("create_time");
         if(StringUtil.isNotBlank(searchKey)){
             queryWrapper.like(searchKey,searchValue);
         }
@@ -45,4 +49,33 @@ public class TInfoServiceImpl extends ServiceImpl<TInfoMapper, TInfo> implements
         return Result.ok().put("count",iPage.getTotal()).put("data",iPage.getRecords());
 
     }
+
+    @Override
+    public Result draftlist(Long userId, Integer pageNo, Integer pageSize, String searchKey, String searchValue) {
+
+        //  根据用户编号 查询出  平台 ID
+        String ptCode = "0";
+
+        QueryWrapper<TInfo> queryWrapper = new QueryWrapper<TInfo>();
+
+        queryWrapper.eq("platform",ptCode);
+        queryWrapper.eq("personid",userId);
+        queryWrapper.eq("isdelete",1);
+        queryWrapper.eq("is_fbtype",0);
+        queryWrapper.orderByDesc("create_time");
+        if(StringUtil.isNotBlank(searchKey)){
+            queryWrapper.like(searchKey,searchValue);
+        }
+        IPage<TInfo> page = new Page<TInfo>(pageNo,pageSize);
+        IPage<TInfo> iPage = tInfoMapper.selectPage(page, queryWrapper);
+        return Result.ok().put("count",iPage.getTotal()).put("data",iPage.getRecords());
+    }
+
+    @Override
+    public boolean updateInfoByIds(String[] ids) {
+        int result = 0;
+        result = tInfoMapper.updateInfoByIds(ids);
+        return result > 0 ? true:false;
+    }
+
 }

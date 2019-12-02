@@ -15,7 +15,7 @@ layui.define(['table','form','configs'], function(exports){
 
   table.render({
     elem: '#LAY-table-manage'
-    ,url: configs.base_server + 'bus/content/contentlist'
+    ,url: configs.base_server + 'bus/content/draftlist'
     ,toolbar: true
     ,cols: [[
       {type: 'checkbox', fixed: 'left'}
@@ -118,7 +118,7 @@ layui.define(['table','form','configs'], function(exports){
       var index = layer.open({
         type: 2
         ,title: '编辑内容'
-        ,content: 'contentform.html'
+        ,content: 'draftform.html'
         ,maxmin: true
         ,area: ['500px', '450px']
       //  ,btn: ['确定', '取消']
@@ -139,6 +139,8 @@ layui.define(['table','form','configs'], function(exports){
               layero.find('iframe').contents().find('#editor_val').val(contentdata.content);
               layero.find('iframe').contents().find('#uploadimg').attr("src",contentdata.minPicAddress);
               layero.find('iframe').contents().find('#image_url').val(contentdata.minPicAddress);
+
+
         }
       });
 
@@ -172,5 +174,5 @@ layui.define(['table','form','configs'], function(exports){
       })
   }
 
-    exports('contentlist', {});
+    exports('draftbox', {});
 });
