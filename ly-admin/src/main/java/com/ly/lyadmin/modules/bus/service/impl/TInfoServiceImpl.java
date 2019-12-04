@@ -9,6 +9,7 @@ import com.ly.common.utils.StringUtil;
 import com.ly.lyadmin.modules.bus.mapper.TInfoMapper;
 import com.ly.lyadmin.modules.bus.model.TInfo;
 import com.ly.lyadmin.modules.bus.service.TInfoService;
+import com.ly.lyadmin.modules.bus.utils.Constant;
 import com.ly.lyadmin.modules.sys.model.SysUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -76,6 +77,22 @@ public class TInfoServiceImpl extends ServiceImpl<TInfoMapper, TInfo> implements
         int result = 0;
         result = tInfoMapper.updateInfoByIds(ids);
         return result > 0 ? true:false;
+    }
+
+
+
+
+    @Override
+    public Result contentTitleList(Integer pageNo, Integer pageSize, String colid, String ptCode) {
+
+        QueryWrapper<TInfo> queryWrapper = new QueryWrapper<>();
+        queryWrapper.like("colid",colid);
+        queryWrapper.like("platform",ptCode);
+        queryWrapper.eq("isdelete", Constant.STATUS_ISUSER);
+        IPage<TInfo> page = new Page<TInfo>(pageNo,pageSize);
+        IPage<TInfo> iPage = tInfoMapper.selectPage(page, queryWrapper);
+        return Result.ok().put("count",iPage.getTotal()).put("data",iPage.getRecords());
+
     }
 
 }

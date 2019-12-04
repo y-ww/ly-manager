@@ -17,6 +17,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -102,7 +103,7 @@ public class TWebController {
     @RequestMapping(value = "/searchContentById",method = RequestMethod.POST)
     public Result searchContentById(String id){
         QueryWrapper<TInfo> queryWrapper = new QueryWrapper<>();
-        queryWrapper.like("id",id);
+        queryWrapper.eq("id",id);
         queryWrapper.eq("isdelete",Constant.STATUS_ISUSER);
         List<TInfo> tInfoList = tInfoService.list(queryWrapper);
         return Result.ok().put("tInfoList",tInfoList);
@@ -119,13 +120,11 @@ public class TWebController {
      */
     @ApiOperation(value = "新闻动态列表查询接口" , notes="新闻动态列表查询接口")
     @RequestMapping(value = "/searchContentByPtCodeId",method = RequestMethod.POST)
-    public Result searchContentByPtCodeId(String colid,String ptCode){
-        QueryWrapper<TInfo> queryWrapper = new QueryWrapper<>();
-        queryWrapper.like("colid",colid);
-        queryWrapper.like("platform",ptCode);
-        queryWrapper.eq("isdelete",Constant.STATUS_ISUSER);
-        List<TInfo> tInfoList = tInfoService.list(queryWrapper);
-        return Result.ok().put("tInfoList",tInfoList);
+    public Result searchContentByPtCodeId(@RequestParam Integer pageNo,@RequestParam Integer pageSize,
+                                          @RequestParam String colid,@RequestParam String ptCode){
+
+        Result r =  tInfoService.contentTitleList(pageNo,pageSize,colid,ptCode);
+        return r;
     }
 
 
@@ -165,8 +164,8 @@ public class TWebController {
         queryWrapper.eq("pt_code",ptCode);
         queryWrapper.eq("status",Constant.STATUS_ISUSER);
         queryWrapper.orderByDesc("order_num");
-        List<TCarousel> tInfoList = tCarouselService.list(queryWrapper);
-        return Result.ok().put("tInfoList",tInfoList);
+        List<TCarousel> carouselList = tCarouselService.list(queryWrapper);
+        return Result.ok().put("carouselList",carouselList);
     }
 
 }
