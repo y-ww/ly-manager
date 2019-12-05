@@ -136,6 +136,7 @@ layui.define(['table','form','configs'], function(exports){
               var iframeWindow = window['layui-layer-iframe'+ index];
               layero.find('iframe').contents().find('[name="id"]').val(contentdata.id);
               layero.find('iframe').contents().find('[name="title"]').val(contentdata.title);
+              layero.find('iframe').contents().find('[name="summary"]').val(contentdata.summary);
               layero.find('iframe').contents().find('#editor_val').val(contentdata.content);
               layero.find('iframe').contents().find('#uploadimg').attr("src",contentdata.minPicAddress);
               layero.find('iframe').contents().find('#image_url').val(contentdata.minPicAddress);

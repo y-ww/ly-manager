@@ -19,10 +19,10 @@ layui.define(['table','form','configs'], function(exports){
     ,toolbar: true
     ,cols: [[
       {type: 'checkbox', fixed: 'left'}
-      ,{field: 'title', width: 350, title: '标题', sort: true}
-      ,{field: 'summary', title: '摘要', minWidth: 80, width: 350}
-      ,{field: 'createTime',title: '发布时间',sort: true}
-      ,{title: '状态',toolbar: '#table-content-status', minWidth: 80, width: 100}
+      ,{field: 'title', width: 250, title: '标题'}
+      ,{field: 'summary',align:'center', title: '摘要'}
+      ,{field: 'createTime',align:'center',title: '发布时间',minWidth: 80, width: 180,sort: true}
+      ,{title: '状态',toolbar: '#table-content-status',align:'center', minWidth: 80, width: 100}
       ,{title: '操作', width: 150, align:'center', fixed: 'right', toolbar: '#table-user-admin'}
     ]]
     ,page: true
@@ -136,6 +136,7 @@ layui.define(['table','form','configs'], function(exports){
               var iframeWindow = window['layui-layer-iframe'+ index];
               layero.find('iframe').contents().find('[name="id"]').val(contentdata.id);
               layero.find('iframe').contents().find('[name="title"]').val(contentdata.title);
+              layero.find('iframe').contents().find('[name="summary"]').val(contentdata.summary);
               layero.find('iframe').contents().find('#editor_val').val(contentdata.content);
               layero.find('iframe').contents().find('#uploadimg').attr("src",contentdata.minPicAddress);
               layero.find('iframe').contents().find('#image_url').val(contentdata.minPicAddress);

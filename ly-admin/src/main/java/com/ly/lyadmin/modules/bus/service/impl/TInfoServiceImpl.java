@@ -95,4 +95,14 @@ public class TInfoServiceImpl extends ServiceImpl<TInfoMapper, TInfo> implements
 
     }
 
+    @Override
+    public TInfo preContent(String id) {
+        return tInfoMapper.preContent(id);
+    }
+
+    @Override
+    public TInfo nextContent(String id) {
+        return tInfoMapper.nextContent(id);
+    }
+
 }

@@ -36,7 +36,7 @@ public class TColumnController extends AbstractController {
     SysUserRoleService sysUserRoleService;
 
     /**
-     * @Description: 栏目菜单
+     * @Description: 栏目菜单（要改动 ！！！）
      * @Param:
      * @Return:
      * @Author: SLIGHTLEE

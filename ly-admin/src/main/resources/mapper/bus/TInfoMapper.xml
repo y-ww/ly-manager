@@ -35,4 +35,11 @@
     </foreach>
   </update>
 
+  <select id="preContent" resultType="com.ly.lyadmin.modules.bus.model.TInfo" parameterType="java.lang.String">
+    select id,title from t_info where colid = (select colid from t_info where  id = #{id}) and isdelete = 1 and create_time &gt; (select create_time from t_info where  id = #{id}) order by create_time LIMIT 1
+  </select>
+  <select id="nextContent" resultType="com.ly.lyadmin.modules.bus.model.TInfo" parameterType="java.lang.String">
+    select id,title from t_info where colid = (select colid from t_info where  id = #{id}) and isdelete = 1 and create_time &lt; (select create_time from t_info where  id = #{id}) order by create_time desc LIMIT 1
+  </select>
+
 </mapper>

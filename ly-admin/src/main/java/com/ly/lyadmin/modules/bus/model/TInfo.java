@@ -49,7 +49,7 @@ public class TInfo implements Serializable {
 
     private Long personid;//发布人编号
 
-    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
     private Date createTime;//创建时间
 
     public String getId() {

@@ -85,7 +85,7 @@ layui.define(['table','form','configs'], function(exports){
                 ,title: '添加角色'
                 ,content: 'roleform.html'
                 ,maxmin: true
-                ,area: ['800px', '600px']
+                ,area: ['600px', '500px']
                 ,btn: ['确定', '取消']
                 ,yes: function(index, layero){
                     var iframeWindow = window['layui-layer-iframe'+ index]
@@ -106,7 +106,7 @@ layui.define(['table','form','configs'], function(exports){
                         console.log(field);
                         //提交 Ajax 成功后，静态更新表格中的数据
                         $.ajax({
-                            url :  configs.base_server + "sys/user/save"
+                            url :  configs.base_server + "sys/role/save"
                             ,contentType: "application/json"
                             ,type : 'post'
                             ,data : JSON.stringify(field)

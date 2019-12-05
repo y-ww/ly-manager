@@ -120,7 +120,7 @@ layui.define(['table','form','configs'], function(exports){
                 ,title: '添加用户'
                 ,content: 'userform.html'
                 ,maxmin: true
-                ,area: ['500px', '450px']
+                ,area: ['600px', '500px']
                 ,btn: ['确定', '取消']
                 ,yes: function(index, layero){
                     var iframeWindow = window['layui-layer-iframe'+ index]
@@ -200,7 +200,7 @@ layui.define(['table','form','configs'], function(exports){
         ,title: '编辑用户'
         ,content: 'userform.html'
         ,maxmin: true
-        ,area: ['500px', '450px']
+        ,area: ['600px', '500px']
         ,btn: ['确定', '取消']
         ,yes: function(index, layero){
           var iframeWindow = window['layui-layer-iframe'+ index]

@@ -11,4 +11,12 @@ import java.util.List;
 public interface TInfoMapper extends BaseMapper<TInfo> {
 
     int updateInfoByIds(@Param(value = "ids") String[] ids);
+
+
+
+    // 上一篇
+    TInfo preContent(String id);
+
+    // 下一篇
+    TInfo nextContent(String id);
 }
