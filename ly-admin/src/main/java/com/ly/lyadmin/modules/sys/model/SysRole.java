@@ -1,6 +1,7 @@
 package com.ly.lyadmin.modules.sys.model;
 
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -16,8 +17,10 @@ public class SysRole implements Serializable {
 
     private Long deptId;
 
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
 
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     private Date updateTime;
 
     private static final long serialVersionUID = 1L;

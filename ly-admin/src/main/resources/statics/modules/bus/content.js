@@ -1,14 +1,11 @@
 /**
  *  内容管理
  */
-
-
-layui.define(['table','form','upload','laytpl'],function (exports) {
+layui.define(['table','form','configs','upload','laytpl'],function (exports) {
 
     var $ = layui.$,
         table = layui.table,
         form = layui.form,
-        admin = layui.admin,
         configs = layui.configs,
         upload = layui.upload,
         laytpl= layui.laytpl;
@@ -19,7 +16,7 @@ layui.define(['table','form','upload','laytpl'],function (exports) {
 
     var uploadInst = upload.render({
         elem: '#uploadimage'
-        ,url: '/pic/upload/'
+        ,url: configs.base_server + 'pic/upload/'
         ,before: function(obj){
             //预读本地文件示例，不支持ie8
             obj.preview(function(index, file, result){
@@ -34,7 +31,7 @@ layui.define(['table','form','upload','laytpl'],function (exports) {
             //上传成功
             var img_url = res.url;
             //alert("测试路径：："+img_url);
-            $("#image_url").val('上传成功'+img_url);
+            $("#image_url").val(img_url);
         }
         ,error: function(){
             //演示失败状态，并实现重传
@@ -46,8 +43,21 @@ layui.define(['table','form','upload','laytpl'],function (exports) {
         }
     });
 
-    //监听提交
+    //监听提交 保存到数据库
     form.on('submit(lay-user-submit)', function(data){
+
+        data.field.isFbtype = 1;
+        addContent(data);
+    });
+
+    //监听提交 保存到草稿箱
+    form.on('submit(lay-user-content)', function(data){
+        data.field.isFbtype = 0;
+        addContent(data);
+    });
+
+    function addContent(data){
+
         var uecontent = UE.getEditor('editor').getContent();
         //  拼接 html
         var prehtml = "<html>\n" +
@@ -61,20 +71,21 @@ layui.define(['table','form','upload','laytpl'],function (exports) {
             "</html>"
 
         data.field.content = prehtml + uecontent + endhtml;
-        layer.alert(JSON.stringify(data.field), {
+        /*layer.alert(JSON.stringify(data.field), {
             title: '最终的提交信息'
-        })
+        });*/
 
         var field = data.field;
 
         $.ajax({
-            url : "../../bus/content/save"
+            url : configs.base_server + "bus/content/save"
             ,type : 'post'
             ,data : field
             ,success :function (data) {
                 if(data.code == 0){
-                    layer.msg("添加成功",{icon: 1});
-
+                    layer.msg("添加成功",{icon: 1,time:1500},function () {
+                        location.reload();
+                    });
                 }else{
                     layer.msg(data.msg,{icon: 2});
                 }
@@ -82,8 +93,32 @@ layui.define(['table','form','upload','laytpl'],function (exports) {
             }
         });
 
-        return false;
-    });
+    }
+
+    /* 栏目类别 */
+
+    $.ajax({
+        url : configs.base_server + "bus/tc/column",
+        type:'post',
+        data:{parentId : 0},
+        success:function (data) {
+
+            var $html = "";
+            if(data.columnList != null){
+                $.each(data.columnList, function (index, item) {
+                    if(item.columnName != "首页" && item.columnName != "十大平台" && item.columnName != "平台排行榜"){
+                        $html += "<option value='" + item.id + "'>" + item.columnName + "</option>";
+                    }
+                });
+                $("select[name='colid']").append($html);
+
+                //append后必须从新渲染
+                form.render('select');
+            }
+        }
+    })
+
+
 
 
     //实例化编辑器
@@ -105,16 +140,16 @@ layui.define(['table','form','upload','laytpl'],function (exports) {
     UE.Editor.prototype.getActionUrl = function(action) {
         if (action == 'uploadimage' || action == 'uploadscrawl') {
            // alert("http://localhost:8866/ueditor/imgUpload");
-            return 'http://127.0.0.1:8866/ueditor/imgUpload';
+            return configs.base_server + 'ueditor/imgUpload';
         }else if(action=='uploadvideo'){
-            return 'http://127.0.0.1:8866/ueditor/vedioUpload';
+            return configs.base_server + 'ueditor/vedioUpload';
         }else {
             return this._bkGetActionUrl.call(this, action);
         }
     }
 
 
-
+/*
     $("#getAllHtml").click(function(){
         alert(UE.getEditor('editor').getAllHtml());
         console.log(UE.getEditor('editor').getAllHtml());
@@ -275,13 +310,8 @@ layui.define(['table','form','upload','laytpl'],function (exports) {
         for (var i = 0, btn; btn = btns[i++];) {
             UE.dom.domUtils.removeAttributes(btn, ["disabled"]);
         }
-    }
+    }*/
 
 
-    ue.ready(function() {
-        UE.getEditor('editor').execCommand('insertHtml', '');
-
-    });
-
-    exports('content', { });
+    exports('content', {});
 });

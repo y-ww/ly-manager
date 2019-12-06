@@ -6,16 +6,17 @@
   * @Date   2019/1/22 10:06
 　*/
 
-layui.define(['table', 'form'], function(exports){
+layui.define(['table','form','configs'], function(exports){
   var $ = layui.$
   ,table = layui.table
   ,form = layui.form
+  ,configs = layui.configs
   ,admin = layui.admin;
 
   //用户管理
   table.render({
-    elem: '#LAY-user-manage'
-    ,url: '/sys/user/list'
+    elem: '#LAY-table-manage'
+    ,url: configs.base_server + '/sys/user/list'
     ,toolbar: true
     ,cols: [[
       {type: 'checkbox', fixed: 'left'}
@@ -30,16 +31,18 @@ layui.define(['table', 'form'], function(exports){
     ,page: true
     ,limit: 10
     ,height: 'full-80'
-    ,text: '对不起，加载出现异常！'
+    ,text: {
+        none : '暂无数据'
+      }
   });
 
 
     //监听搜索
-    form.on('submit(LAY-user-front-search)', function(data){
+    form.on('submit(LAY-table-search)', function(data){
         var field = data.field;
 
         //执行重载
-        table.reload('LAY-user-manage', {
+        table.reload('LAY-table-manage', {
             where: field
         });
     });
@@ -53,11 +56,11 @@ layui.define(['table', 'form'], function(exports){
 
         if(field.userId == 1){
             layer.msg("管理员不能禁用",{icon: 2});
-            table.reload('LAY-user-manage');
+            table.reload('LAY-table-manage');
         }else{
 
             $.ajax({
-                url : "../../sys/user/update",
+                url : configs.base_server + "sys/user/update",
                 type : "post",
                 contentType: "application/json",
                 data: JSON.stringify(field),
@@ -79,7 +82,7 @@ layui.define(['table', 'form'], function(exports){
     //事件
     var active = {
         del: function(){
-            var checkStatus = table.checkStatus('LAY-user-manage')
+            var checkStatus = table.checkStatus('LAY-table-manage')
                 ,checkData = checkStatus.data //得到选中的数据
                 ,userIds= [];   //  定义空数组 用来存放 多个id   var userId = new Array();
             for (var index in checkData){
@@ -95,7 +98,7 @@ layui.define(['table', 'form'], function(exports){
 
                 $.ajax({
                     type: "POST",
-                    url : "../../sys/user/delete",
+                    url : configs.base_server + "sys/user/delete",
                     contentType: "application/json",
                     data: JSON.stringify(userIds),
                     success: function(data){
@@ -105,7 +108,7 @@ layui.define(['table', 'form'], function(exports){
                         }else{
                             layer.msg(data.msg,{icon: 2});
                         }
-                        table.reload('LAY-user-manage');
+                        table.reload('LAY-table-manage');
                     }
                 });
 
@@ -117,7 +120,7 @@ layui.define(['table', 'form'], function(exports){
                 ,title: '添加用户'
                 ,content: 'userform.html'
                 ,maxmin: true
-                ,area: ['500px', '450px']
+                ,area: ['600px', '500px']
                 ,btn: ['确定', '取消']
                 ,yes: function(index, layero){
                     var iframeWindow = window['layui-layer-iframe'+ index]
@@ -138,7 +141,7 @@ layui.define(['table', 'form'], function(exports){
                         console.log(field);
                         //提交 Ajax 成功后，静态更新表格中的数据
                         $.ajax({
-                            url :  "../../sys/user/save"
+                            url :  configs.base_server + "sys/user/save"
                             ,contentType: "application/json"
                             ,type : 'post'
                             ,data : JSON.stringify(field)
@@ -149,7 +152,7 @@ layui.define(['table', 'form'], function(exports){
                                 }else{
                                     layer.msg(data.msg,{icon: 2});
                                 }
-                                table.reload('LAY-user-manage');
+                                table.reload('LAY-table-manage');
                             }
                         });
                         layer.close(index); //关闭弹层
@@ -167,7 +170,7 @@ layui.define(['table', 'form'], function(exports){
 
 
   //监听工具条
-  table.on('tool(LAY-user-manage)', function(obj){
+  table.on('tool(LAY-table-manage)', function(obj){
     var data = obj.data;
     if(obj.event === 'del'){
 
@@ -176,7 +179,7 @@ layui.define(['table', 'form'], function(exports){
 
         $.ajax({
             type: "POST",
-            url : "../../sys/user/delete",
+            url : configs.base_server + "sys/user/delete",
             contentType: "application/json",
             data: JSON.stringify(userIds),
             success: function(data){
@@ -186,7 +189,7 @@ layui.define(['table', 'form'], function(exports){
                 }else{
                     layer.msg(data.msg,{icon: 2});
                 }
-                table.reload('LAY-user-manage');
+                table.reload('LAY-table-manage');
             }
         });
 
@@ -197,7 +200,7 @@ layui.define(['table', 'form'], function(exports){
         ,title: '编辑用户'
         ,content: 'userform.html'
         ,maxmin: true
-        ,area: ['500px', '450px']
+        ,area: ['600px', '500px']
         ,btn: ['确定', '取消']
         ,yes: function(index, layero){
           var iframeWindow = window['layui-layer-iframe'+ index]
@@ -219,7 +222,7 @@ layui.define(['table', 'form'], function(exports){
             // 修改
             $.ajax({
                 type: "POST",
-                url : "../../sys/user/update",
+                url : configs.base_server + "sys/user/update",
                 contentType: "application/json",
                 data: JSON.stringify(field),
                 success: function(data){
@@ -229,7 +232,7 @@ layui.define(['table', 'form'], function(exports){
                     }else{
                         layer.msg(data.msg,{icon: 2});
                     }
-                    table.reload('LAY-user-manage');
+                    table.reload('LAY-table-manage');
                 }
             });
             layer.close(index); //关闭弹层

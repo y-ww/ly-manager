@@ -17,19 +17,23 @@ public class TColumn implements Serializable {
 
     private static final long serialVersionUID = 2198391283093449820L;
 
-    private String id;
+    private Long id;
 
     private String columnName;
 
-    private String parentId;
+    private Long parentId;
 
-    private Integer status;
 
     private String ptCode;
 
     private String linkurl;
 
+    private Integer showWeb;
+
     private Integer orderNum;
+
+    private Integer status;
+
 
     /**
      * 父菜单名称
@@ -40,11 +44,11 @@ public class TColumn implements Serializable {
     @TableField(exist = false)
     private List<?> list;
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -56,20 +60,12 @@ public class TColumn implements Serializable {
         this.columnName = columnName;
     }
 
-    public String getParentId() {
+    public Long getParentId() {
         return parentId;
     }
 
-    public void setParentId(String parentId) {
+    public void setParentId(Long parentId) {
         this.parentId = parentId;
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
     }
 
     public String getPtCode() {
@@ -88,12 +84,28 @@ public class TColumn implements Serializable {
         this.linkurl = linkurl;
     }
 
+    public Integer getShowWeb() {
+        return showWeb;
+    }
+
+    public void setShowWeb(Integer showWeb) {
+        this.showWeb = showWeb;
+    }
+
     public Integer getOrderNum() {
         return orderNum;
     }
 
     public void setOrderNum(Integer orderNum) {
         this.orderNum = orderNum;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 
     public String getParentName() {
@@ -115,13 +127,14 @@ public class TColumn implements Serializable {
     @Override
     public String toString() {
         return "TColumn{" +
-                "id='" + id + '\'' +
+                "id=" + id +
                 ", columnName='" + columnName + '\'' +
-                ", parentId='" + parentId + '\'' +
-                ", status=" + status +
+                ", parentId=" + parentId +
                 ", ptCode='" + ptCode + '\'' +
                 ", linkurl='" + linkurl + '\'' +
+                ", showWeb=" + showWeb +
                 ", orderNum=" + orderNum +
+                ", status=" + status +
                 ", parentName='" + parentName + '\'' +
                 ", list=" + list +
                 '}';

@@ -28,22 +28,22 @@
           </div>
 
           <!-- -->
-          <div class="layui-inline">
+   <!--       <div class="layui-inline">
             <input type="text" name="" placeholder="请选择栏目..." autocomplete="off" class="layui-input">
           </div>
 
-
+-->
 
           <div class="layui-inline">
-            <button class="layui-btn" lay-submit lay-filter="LAY-user-front-search">
-              <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+            <button class="layui-btn" lay-submit lay-filter="LAY-table-search">
+              <i class="layui-icon layui-icon-search"></i>
               搜索
             </button>
           </div>
 
           <div class="layui-inline">
             <button class="layui-btn ud-btn" data-type="del">
-              <i class="layui-icon layui-icon-delete layuiadmin-button-btn"></i>
+              <i class="layui-icon layui-icon-delete"></i>
               删除
             </button>
           </div>
@@ -52,12 +52,18 @@
 
       </div>
 
-        <table id="LAY-user-manage" lay-filter="LAY-user-manage"></table>
+        <table id="LAY-table-manage" lay-filter="LAY-table-manage"></table>
 <!--        <script type="text/html" id="imgTpl">
           <img style="display: inline-block; width: 50%; height: 100%;" src= {{ d.avatar }}>
         </script>-->
       <script type="text/html" id="table-content-status">
-        {{d.isFbtype==1?'已发布':'未发布'}}
+<!--      {{d.isFbtype==1?'已发布':'未发布'}}-->
+        {{# if(d.isFbtype == '1'){d.isFbtype ='已发布' }}
+        <span style="color: #007400">{{d.isFbtype}}</span>
+        {{# } }}
+       {{# if(d.isFbtype == '0'){d.isFbtype ='未发布' }}
+       <span style="color: #ff791d">{{d.isFbtype}}</span>
+       {{# } }}
       </script>
 
         <script type="text/html" id="table-user-admin">
@@ -80,9 +86,9 @@
   layui.config({
       base : '../../../../statics/modules/' //静态资源所在路径
   }).extend({
-      index : 'index',
+    index : 'index',
     contentlist : 'bus/contentlist'
-  }).use(['index','contentlist', 'table']);
+  }).use(['index','contentlist','table']);
 
   </script>
 </body>

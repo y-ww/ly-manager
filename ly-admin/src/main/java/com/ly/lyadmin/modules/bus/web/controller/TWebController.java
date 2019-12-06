@@ -3,20 +3,15 @@ package com.ly.lyadmin.modules.bus.web.controller;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.ly.common.utils.Result;
-import com.ly.lyadmin.modules.bus.model.TCarousel;
-import com.ly.lyadmin.modules.bus.model.TColumn;
-import com.ly.lyadmin.modules.bus.model.TDict;
-import com.ly.lyadmin.modules.bus.model.TInfo;
-import com.ly.lyadmin.modules.bus.service.TCarouselService;
-import com.ly.lyadmin.modules.bus.service.TColumnService;
-import com.ly.lyadmin.modules.bus.service.TDictService;
-import com.ly.lyadmin.modules.bus.service.TInfoService;
+import com.ly.lyadmin.modules.bus.model.*;
+import com.ly.lyadmin.modules.bus.service.*;
 import com.ly.lyadmin.modules.bus.utils.Constant;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -43,6 +38,9 @@ public class TWebController {
 
     @Autowired
     TCarouselService tCarouselService;
+
+    @Autowired
+    TContentCarouselService tContentCarouselService;
 
 
     /**
@@ -102,7 +100,7 @@ public class TWebController {
     @RequestMapping(value = "/searchContentById",method = RequestMethod.POST)
     public Result searchContentById(String id){
         QueryWrapper<TInfo> queryWrapper = new QueryWrapper<>();
-        queryWrapper.like("id",id);
+        queryWrapper.eq("id",id);
         queryWrapper.eq("isdelete",Constant.STATUS_ISUSER);
         List<TInfo> tInfoList = tInfoService.list(queryWrapper);
         return Result.ok().put("tInfoList",tInfoList);
@@ -119,7 +117,26 @@ public class TWebController {
      */
     @ApiOperation(value = "新闻动态列表查询接口" , notes="新闻动态列表查询接口")
     @RequestMapping(value = "/searchContentByPtCodeId",method = RequestMethod.POST)
-    public Result searchContentByPtCodeId(String colid,String ptCode){
+    public Result searchContentByPtCodeId(@RequestParam Integer pageNo,@RequestParam Integer pageSize,
+                                          @RequestParam String colid,@RequestParam String ptCode){
+
+        Result r =  tInfoService.contentTitleList(pageNo,pageSize,colid,ptCode);
+        return r;
+    }
+
+
+   /**
+    * @MethodName: 新闻动态列表查询接口不带分页
+    * @Description: TODO
+    * @Param:
+    * @Return:
+    * @Author: SLIGHTLEE
+    * @Email: lmm_work@163.com
+    * @Date: 2019/12/5 11:18 下午
+    */
+    @ApiOperation(value = "新闻动态列表查询接口不带分页" , notes="新闻动态列表查询接口不带分页")
+    @RequestMapping(value = "/sercontentByPtCodeId",method = RequestMethod.POST)
+    public Result sercontentByPtCodeId(@RequestParam String colid,@RequestParam String ptCode){
         QueryWrapper<TInfo> queryWrapper = new QueryWrapper<>();
         queryWrapper.like("colid",colid);
         queryWrapper.like("platform",ptCode);
@@ -165,8 +182,71 @@ public class TWebController {
         queryWrapper.eq("pt_code",ptCode);
         queryWrapper.eq("status",Constant.STATUS_ISUSER);
         queryWrapper.orderByDesc("order_num");
-        List<TCarousel> tInfoList = tCarouselService.list(queryWrapper);
-        return Result.ok().put("tInfoList",tInfoList);
+        List<TCarousel> carouselList = tCarouselService.list(queryWrapper);
+        return Result.ok().put("carouselList",carouselList);
     }
 
+   /**
+    * @MethodName: 内容轮播查询接口
+    * @Description: TODO
+    * @Param:
+    * @Return:
+    * @Author: SLIGHTLEE
+    * @Email: lmm_work@163.com
+    * @Date: 2019/12/5 10:06 下午
+    */
+    @ApiOperation(value = "内容轮播查询接口" , notes="内容轮播查询接口")
+    @RequestMapping(value = "/contentCarouselList",method = RequestMethod.POST)
+    public Result contentCarouselList(String ptCode){
+        QueryWrapper<TContentCarousel> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("pt_code",ptCode);
+        queryWrapper.eq("status",Constant.STATUS_ISUSER);
+        queryWrapper.orderByDesc("order_num");
+        List<TContentCarousel> contentCarouselList = tContentCarouselService.list(queryWrapper);
+        return Result.ok().put("contentCarouselList",contentCarouselList);
+    }
+
+    /**
+     * @MethodName: 联谊会内容介绍接口
+     * @Description: TODO
+     * @Param: 
+     * @Return: 
+     * @Author: SLIGHTLEE
+     * @Email: lmm_work@163.com
+     * @Date: 2019/12/5 11:43 下午
+     */
+    @ApiOperation(value = "联谊会内容介绍接口" , notes="联谊会内容介绍接口")
+    @RequestMapping(value = "/sororitylList",method = RequestMethod.GET)
+    public Result sororitylList(){
+        QueryWrapper<TInfo> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("id","cbc61b6c5e2b4ca4a208f21b6912c5a3");
+        TInfo sororityInfo = tInfoService.getOne(queryWrapper);
+        return Result.ok().put("sororityInfo",sororityInfo);
+    }
+
+   
+    /**
+     * @MethodName: 新闻动态内容、上一篇 下一篇查询接口
+     * @Description: TODO
+     * @Param: 
+     * @Return: 
+     * @Author: SLIGHTLEE
+     * @Email: lmm_work@163.com
+     * @Date: 2019/12/6 12:41 上午
+     */
+    @ApiOperation(value = "新闻动态内容、上一篇 下一篇查询接口" , notes="新闻动态内容、上一篇 下一篇查询接口")
+    @RequestMapping(value = "/preNextcontent",method = RequestMethod.POST)
+    public Result preNextcontent(String id){
+        QueryWrapper<TInfo> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("id",id);
+        queryWrapper.eq("isdelete",Constant.STATUS_ISUSER);
+        // 新闻详情
+        TInfo tInfo = tInfoService.getById(id);
+        // 上一篇
+        TInfo preInfo = tInfoService.preContent(id);
+        // 下一篇
+        TInfo nextInfo = tInfoService.nextContent(id);
+
+        return Result.ok().put("tInfo",tInfo).put("preInfo",preInfo).put("nextInfo",nextInfo);
+    }
 }

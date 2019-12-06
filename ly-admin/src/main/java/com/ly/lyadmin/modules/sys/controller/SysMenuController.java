@@ -47,6 +47,7 @@ public class SysMenuController extends AbstractController{
      */
     @RequestMapping("/list")
     public Result list(){
+        long beginTime = System.currentTimeMillis();
         List<SysMenu> menuList = sysMenuService.list(null);
         for (SysMenu sysMenu : menuList){
             SysMenu parentMenu = sysMenuService.getById(sysMenu.getParentId());
@@ -54,6 +55,8 @@ public class SysMenuController extends AbstractController{
                 sysMenu.setParentName(parentMenu.getName());
             }
         }
+        long endTime = System.currentTimeMillis();
+        System.out.println("花费时间" + (endTime - beginTime));
         return Result.ok().put("data",menuList);
 
     }
@@ -76,7 +79,7 @@ public class SysMenuController extends AbstractController{
     }
 
     /**
-     * 添加菜单
+     * 删除菜单
      */
     @SysLog("删除菜单")
     @RequestMapping("/delete")
@@ -94,4 +97,5 @@ public class SysMenuController extends AbstractController{
 
         return Result.ok();
     }
+
 }

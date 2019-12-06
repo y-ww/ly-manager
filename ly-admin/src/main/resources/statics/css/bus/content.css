@@ -3,7 +3,6 @@
     height: 150px;
 }
 
-#title{
-    width: 450px;
-}
-
+#layui-input-custom-css,#layui-input-custom-css2,
+#layui-input-custom-css3,#layui-input-custom-css4,
+#layui-input-custom-css5,#layui-input-custom-css6{width: 450px;}

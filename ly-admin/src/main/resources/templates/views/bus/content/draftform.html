@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Title</title>
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <link rel="stylesheet" href="../../../../statics/plugins/layui/css/layui.css" media="all">
+  <link rel="stylesheet" href="../../../../statics/css/bus/content.css" media="all">
+</head>
+<body>
+
+<div class="layui-fluid">
+
+  <div class="layui-card">
+
+      <div class="layui-form" lay-filter="" id="">
+
+          <div class="layui-form-item">
+              <input type="hidden" name="id">
+            <label class="layui-form-label">文章标题</label>
+            <div class="layui-input-inline">
+              <input type="text" name="title" id="title" lay-verify="required" placeholder="请输入..." autocomplete="off" class="layui-input">
+            </div>
+          </div>
+
+          <div class="layui-form-item">
+            <label class="layui-form-label">文章栏目</label>
+
+            <div class="layui-input-inline">
+              <select name="colid" lay-verify="required">
+                <option value="">请选择</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="layui-form-item">
+              <label class="layui-form-label">文章摘要</label>
+              <div class="layui-input-inline" id="layui-input-custom-css3">
+                  <textarea placeholder="请输入内容" name="summary" class="layui-textarea"></textarea>
+              </div>
+          </div>
+
+          <input type="hidden" name="minPicAddress" id="image_url">
+
+          <div class="layui-form-item">
+            <label class="layui-form-label">缩略图</label>
+            <div class="layui-input-inline">
+              <button type="button" class="layui-btn" id="uploadimage">上传图片</button>
+              <div class="layui-upload-list">
+                <img class="layui-upload-img" id="uploadimg">
+                <p id="demoText"></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="layui-form-item">
+            <label class="layui-form-label">文章内容</label>
+            <div class="layui-input-inline">
+    <!--          <div id="editor" type="text/plain" style="width:1024px;height:300px;"></div>-->
+    <!--          <textarea id="editor" name="content" style="width:1024px;height:300px;"></textarea>-->
+              <div id="editor" type="text/plain" style="width:1024px;height:300px;"></div>
+            </div>
+          </div>
+          <hr/>
+          <textarea id="editor_val" hidden="hidden"></textarea>
+
+          <div class="layui-form-item">
+            <div class="layui-input-block">
+              <button type="submit" class="layui-btn" lay-submit="" lay-filter="lay-user-submit">发布内容</button>
+              <button type="submit" class="layui-btn layui-btn-primary" lay-submit="" lay-filter="lay-user-content">保存到草稿箱</button>
+            </div>
+          </div>
+
+      </div>
+  </div>
+</div>
+
+
+<script src="../../../../statics/plugins/ueditor1_4_32_dev/ueditor.config.js"></script>
+<script src="../../../../statics/plugins/ueditor1_4_32_dev/ueditor.all.js"> </script>
+<!--建议手动加在语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
+<!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->
+<script src="../../../../statics/plugins/ueditor1_4_32_dev/lang/zh-cn/zh-cn.js"></script>
+
+
+<script src="../../../../statics/plugins/layui/layui.js"></script>
+<script type="text/javascript">
+
+  layui.config({
+    base : '../../../../statics/modules/' //静态资源所在路径
+  }).extend({
+    index : 'index',
+    draftform : 'bus/draftform',
+    contentform : 'bus/contentform'
+  }).use(['index','draftform','contentform','upload']);
+
+</script>
+</body>
+</html>
