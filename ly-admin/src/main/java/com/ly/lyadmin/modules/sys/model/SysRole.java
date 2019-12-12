@@ -26,7 +26,7 @@ public class SysRole implements Serializable {
     private Date updateTime;
 
     @TableField(exist = false)
-    private List<Long> codes;
+    private List<Long> codes; // 菜单列表
 
     private static final long serialVersionUID = 1L;
 

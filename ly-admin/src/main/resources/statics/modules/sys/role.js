@@ -49,12 +49,12 @@ layui.define(['table','form','configs'], function(exports){
         del: function(){
             var checkStatus = table.checkStatus('LAY-table-manage')
                 ,checkData = checkStatus.data //得到选中的数据
-                ,userIds= [];   //  定义空数组 用来存放 多个id   var userId = new Array();
+                ,roleIds= [];   //  定义空数组 用来存放 多个id   var userId = new Array();
             for (var index in checkData){
-                console.log(checkData[index].userId);
-                userIds.push(checkData[index].userId)
+                console.log(checkData[index].roleId);
+                roleIds.push(checkData[index].roleId)
             }
-            var  aa = JSON.stringify(userIds);
+            var  aa = JSON.stringify(roleIds);
 
             if(checkData.length === 0){
                 return layer.msg('请选择数据');
@@ -63,9 +63,9 @@ layui.define(['table','form','configs'], function(exports){
 
                 $.ajax({
                     type: "POST",
-                    url : configs.base_server + "sys/user/delete",
+                    url : configs.base_server + "sys/role/delete",
                     contentType: "application/json",
-                    data: JSON.stringify(userIds),
+                    data: JSON.stringify(roleIds),
                     success: function(data){
                         if(data.code == 0){
                             layer.msg("删除成功",{icon: 1});
@@ -101,14 +101,14 @@ layui.define(['table','form','configs'], function(exports){
     var data = obj.data;
     if(obj.event === 'del'){
 
-      var userIds = [];
-      userIds.push(data.userId);
+      var roleIds = [];
+      roleIds.push(data.roleId);
 
         $.ajax({
             type: "POST",
-            url : configs.base_server + "sys/user/delete",
+            url : configs.base_server + "sys/role/delete",
             contentType: "application/json",
-            data: JSON.stringify(userIds),
+            data: JSON.stringify(roleIds),
             success: function(data){
                 if(data.code == 0){
                     layer.msg("删除成功",{icon: 1});
@@ -124,68 +124,19 @@ layui.define(['table','form','configs'], function(exports){
 
        layer.open({
         type: 2
-        ,title: '编辑用户'
-        ,content: 'userform.html'
+        ,title: '编辑角色'
+        ,content: 'roleform.html'
         ,maxmin: true
-        ,area: ['500px', '450px']
-        ,btn: ['确定', '取消']
-        ,yes: function(index, layero){
-          var iframeWindow = window['layui-layer-iframe'+ index]
-          ,submitID = 'LAY-user-front-submit'
-          ,submit = layero.find('iframe').contents().find('#'+ submitID);
-
-          //监听提交
-          iframeWindow.layui.form.on('submit('+ submitID +')', function(data){
-            var field = data.field;
-            field.userId = obj.data.userId;
-              var status;
-              if('switch' in field){  // 包含该元素
-                  status = 1 ;
-              }else{
-                  status = 0;
-              }
-              field.status = status;
-              console.log(field);
-            // 修改
-            $.ajax({
-                type: "POST",
-                url : configs.base_server + "sys/user/update",
-                contentType: "application/json",
-                data: JSON.stringify(field),
-                success: function(data){
-                    if(data.code == 0){
-                        layer.msg("修改成功",{icon: 1});
-
-                    }else{
-                        layer.msg(data.msg,{icon: 2});
-                    }
-                    table.reload('LAY-table-manage');
-                }
-            });
-            layer.close(index); //关闭弹层
-          });  
-          
-          submit.trigger('click');
-        }
+        ,area: ['600px', '500px']
         ,success: function(layero, index){
 
-        /*      二者等价
-        var iframeWindow = window['layui-layer-iframe'+ index];
-        var iframeWin = window[layero.find('iframe')[0]['name']];
-
-         var div = layero.find('iframe').contents().find('#layuiadmin-form-useradmin');
-         var body = layer.getChildFrame('body', index);
-        */
           var div = layero.find('iframe').contents().find('#layuiadmin-form-useradmin');
 
-            var userdata = obj.data;
-            for(var key in userdata){
-                var ac = userdata[key]
-                div.find('#'+key +'').val(userdata[key]);
-                if (key == 'status'&& userdata[key] == 1 ){
-                    div.find('#'+key +'').attr("checked",true);
-                }
-            }
+          var data = obj.data;
+          div.find('#roleName').val(data.roleName);
+          div.find('#remark').val(data.remark);
+          div.find('#roleId').val(data.roleId);
+
         }
       });
     }

@@ -83,9 +83,25 @@ layui.define(['table','form','configs','tree','util'], function(exports){
                 ,showCheckbox: true
             });
 
+            // 获取 roleId
+            var roleId = $("#roleId").val();
+            if(roleId != null || roleId != ""){
+                $.ajax({
+                    type: "POST",
+                    url : configs.base_server + "sys/role/roloInfo",
+                    data: {roleId:roleId},
+                    success: function(data){
+                        var menuList = data.sysRole.codes;
+                        tree.setChecked('treeId', menuList); //勾选指定节点
+                    }
+                });
+            }
+
         }
 
     });
+
+
 
 
 
@@ -165,6 +181,7 @@ layui.define(['table','form','configs','tree','util'], function(exports){
             }
         }
         ,setChecked: function(){
+            tree;
             tree.setChecked('treeId', [2]); //勾选指定节点
         }
         ,reload: function(){
@@ -195,6 +212,8 @@ layui.define(['table','form','configs','tree','util'], function(exports){
         var checkedData = tree.getChecked('treeId'); //获取选中节点的数据
         var codes = getCheckedId(checkedData);
         console.log(codes);
+        // 去除第一位 根节点
+        codes.splice(0,1);
         field.codes = codes;
 
         function getCheckedId(jsonObj) {
@@ -218,24 +237,50 @@ layui.define(['table','form','configs','tree','util'], function(exports){
         }
 
     //    var faild = JSON.stringify(field);
-
-        $.ajax({
-            url :  configs.base_server + "sys/role/save"
-            ,contentType: "application/json"
-            ,type : 'post'
-            ,data : JSON.stringify(field)
-            ,success :function (data) {
-                if(data.code == 0){
-                    layer.msg("添加成功",{icon: 1,time:2000},function () {
-                        var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
-                        parent.layer.close(index); //再执行关闭
-                        parent.location.reload();//刷新
-                    });
-                }else{
-                    layer.msg(data.msg,{icon: 2});
+        // 根据角色编号是否存在 判断 添加 还是修改
+        if(field.roleId == null || field.roleId == ""){
+            // 添加
+            $.ajax({
+                url :  configs.base_server + "sys/role/save"
+                ,contentType: "application/json"
+                ,type : 'post'
+                ,data : JSON.stringify(field)
+                ,success :function (data) {
+                    if(data.code == 0){
+                        layer.msg("添加成功",{icon: 1,time:1500},function () {
+                            var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                            parent.layer.close(index); //再执行关闭
+                            parent.location.reload();//刷新
+                        });
+                    }else{
+                        layer.msg(data.msg,{icon: 2});
+                    }
                 }
-            }
-        });
+            });
+
+        }else {
+            // 修改
+            $.ajax({
+                url :  configs.base_server + "sys/role/update"
+                ,contentType: "application/json"
+                ,type : 'post'
+                ,data : JSON.stringify(field)
+                ,success :function (data) {
+                    if(data.code == 0){
+                        layer.msg("修改成功",{icon: 1,time:1500},function () {
+                            var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                            parent.layer.close(index); //再执行关闭
+                            parent.location.reload();//刷新
+                        });
+                    }else{
+                        layer.msg(data.msg,{icon: 2});
+                    }
+                }
+            });
+        }
+
+
+       /* */
 
     });
 
