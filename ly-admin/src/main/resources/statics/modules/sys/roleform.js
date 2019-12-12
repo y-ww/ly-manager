@@ -1,5 +1,5 @@
 /**
-  * @Description:  管理员管理
+  * @Description:  js 仅供参考 移入 role js 里面
   * 
   * @Author MING
   * @Email  lmm_work@163.com
@@ -11,7 +11,6 @@ layui.define(['table','form','configs','tree','util'], function(exports){
   ,table = layui.table
   ,form = layui.form
   ,configs = layui.configs
-  ,admin = layui.admin
   ,tree = layui.tree
   ,util = layui.util;
 
@@ -23,24 +22,75 @@ layui.define(['table','form','configs','tree','util'], function(exports){
         ,success:function (data) {
             var menulList = data.data;
            console.log(menulList);
-            var menulList = treeMenulList(menulList);
 
-            function treeMenulList(jsonObj) {
-                var parentmenulList = [];
-                var childmenulList = [];
-                $.each(jsonObj, function (index, item) {
-                    if(item.parentId == 0){
-                    //    parentmenulList.add()
-                    }
+           var newList = newMenuList(menulList);
+
+           function newMenuList(arr) {
+
+               let treeArr = arr;
+               let temp = [];
+
+                treeArr.forEach((item, index) => {
+
+                    let newTreeArr = treeArr;
+
+                    newTreeArr[index] = {};
+                    newTreeArr[index].id = item.menuId;
+                    newTreeArr[index].parentId = item.parentId;
+                    newTreeArr[index].title = item.name;
+
+                    temp.push(newTreeArr[index]);
                 });
+
+                return temp;
             }
+
+            var authMenulList = arrayToTree(newList , 0);
+
+            function arrayToTree(arr, parentId) {
+
+                //  arr 是返回的数据  parendId 父id
+                let temp = [];
+
+                let treeArr = arr;
+
+                treeArr.forEach((item, index) => {
+
+                    if (item.parentId == parentId) {
+
+                        if (arrayToTree(treeArr, treeArr[index].id).length > 0) {
+
+                            // 递归调用此函数
+
+                            treeArr[index].children = arrayToTree(treeArr, treeArr[index].id);
+
+                        }
+                        temp.push(treeArr[index]);
+                    }
+
+                });
+                return temp;
+            }
+        //    console.log(arrayToTree(newList , 0));   // 第一级的父目录id是0；写死调用
+
+
+            //无连接线风格
+            tree.render({
+                elem: '#menuTree'
+                ,data: authMenulList
+                ,id: 'treeId'
+                ,showLine: false  //是否开启连接线
+                ,showCheckbox: true
+            });
+
         }
+
     });
 
 
 
       //模拟数据1
-     var data1 = [
+  /*   var data1 = [
          {
           title: '江西'
           ,id: 1
@@ -81,19 +131,24 @@ layui.define(['table','form','configs','tree','util'], function(exports){
               title: '延安'
               ,id: 3001
           }]
-      }];
+      }];*/
 
     //按钮事件
     util.event('lay-demo', {
         getChecked: function(othis){
-            var checkedData = tree.getChecked('demoId1'); //获取选中节点的数据
+            var checkedData = tree.getChecked('treeId'); //获取选中节点的数据
 
             //  layer.alert(JSON.stringify(checkedData), {shade:0});
             //  console.log(checkedData);
             var ids = getCheckedId(checkedData);
             console.log(ids);
-            function getCheckedId(jsonObj) {
+
+            //code.push(ids);
+            //console.log(code);
+
+           function getCheckedId(jsonObj) {
                 var id = "";
+               let code = [];
                 $.each(jsonObj, function (index, item) {
                     if (id != "") {
                         id = id + "," + item.id;
@@ -110,17 +165,18 @@ layui.define(['table','form','configs','tree','util'], function(exports){
             }
         }
         ,setChecked: function(){
-            tree.setChecked('demoId1', [3001]); //勾选指定节点
+            tree.setChecked('treeId', [2]); //勾选指定节点
         }
         ,reload: function(){
             //重载实例
-            tree.reload('demoId1', {
+            tree.reload('treeId', {
 
             });
 
         }
     });
 
+/*
     //无连接线风格
     tree.render({
         elem: '#test13'
@@ -128,6 +184,59 @@ layui.define(['table','form','configs','tree','util'], function(exports){
         ,id: 'demoId1'
         ,showLine: false  //是否开启连接线
         ,showCheckbox: true
+    });
+*/
+
+
+    form.on('submit(lay-user-submit)', function(data){
+
+       var field = data.field;
+
+        var checkedData = tree.getChecked('treeId'); //获取选中节点的数据
+        var codes = getCheckedId(checkedData);
+        console.log(codes);
+        field.codes = codes;
+
+        function getCheckedId(jsonObj) {
+
+            let code = [];
+
+            $.each(jsonObj, function (index, item) {
+
+                code.push(item.id);
+
+               var newCode = getCheckedId(item.children);
+               if(newCode.length > 0){
+                   for (var i=0;i<newCode.length;i++){
+                       code.push(newCode[i]);
+                   }
+
+               }
+            });
+
+            return code;
+        }
+
+    //    var faild = JSON.stringify(field);
+
+        $.ajax({
+            url :  configs.base_server + "sys/role/save"
+            ,contentType: "application/json"
+            ,type : 'post'
+            ,data : JSON.stringify(field)
+            ,success :function (data) {
+                if(data.code == 0){
+                    layer.msg("添加成功",{icon: 1,time:2000},function () {
+                        var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                        parent.layer.close(index); //再执行关闭
+                        parent.location.reload();//刷新
+                    });
+                }else{
+                    layer.msg(data.msg,{icon: 2});
+                }
+            }
+        });
+
     });
 
 

@@ -119,7 +119,9 @@ public class TWebController {
     @RequestMapping(value = "/searchContentByPtCodeId",method = RequestMethod.POST)
     public Result searchContentByPtCodeId(@RequestParam Integer pageNo,@RequestParam Integer pageSize,
                                           @RequestParam String colid,@RequestParam String ptCode){
-
+        if(colid == "11" || "11".equals(colid)){
+            colid = "3";
+        }
         Result r =  tInfoService.contentTitleList(pageNo,pageSize,colid,ptCode);
         return r;
     }
@@ -137,10 +139,16 @@ public class TWebController {
     @ApiOperation(value = "新闻动态列表查询接口不带分页" , notes="新闻动态列表查询接口不带分页")
     @RequestMapping(value = "/sercontentByPtCodeId",method = RequestMethod.POST)
     public Result sercontentByPtCodeId(@RequestParam String colid,@RequestParam String ptCode){
+        if(colid == "11" || "11".equals(colid)){
+            colid = "3";
+        }
         QueryWrapper<TInfo> queryWrapper = new QueryWrapper<>();
+        queryWrapper.select("id","title","summary","min_pic_address");
         queryWrapper.like("colid",colid);
         queryWrapper.like("platform",ptCode);
         queryWrapper.eq("isdelete",Constant.STATUS_ISUSER);
+        queryWrapper.eq("is_fbtype",Constant.STATUS_ISUSER);
+        queryWrapper.orderByDesc("create_time");
         List<TInfo> tInfoList = tInfoService.list(queryWrapper);
         return Result.ok().put("tInfoList",tInfoList);
     }
@@ -158,6 +166,7 @@ public class TWebController {
     @RequestMapping(value = "/search",method = RequestMethod.POST)
     public Result search(String title,String ptCode){
         QueryWrapper<TInfo> queryWrapper = new QueryWrapper<>();
+        queryWrapper.select("id","title");
         queryWrapper.like("title",title);
         queryWrapper.eq("platform",ptCode);
         queryWrapper.eq("isdelete",Constant.STATUS_ISUSER);

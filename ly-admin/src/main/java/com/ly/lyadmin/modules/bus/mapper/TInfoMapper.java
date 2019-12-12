@@ -13,7 +13,6 @@ public interface TInfoMapper extends BaseMapper<TInfo> {
     int updateInfoByIds(@Param(value = "ids") String[] ids);
 
 
-
     // 上一篇
     TInfo preContent(String id);
 

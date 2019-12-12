@@ -29,7 +29,7 @@
     <div class="layui-form-item">
       <label class="layui-form-label">菜单授权</label>
       <div class="layui-input-inline">
-        <div id="test13" class="demo-tree-more"></div>
+        <div id="menuTree"></div>
       </div>
     </div>
 
@@ -38,14 +38,16 @@
       <button type="button" class="layui-btn layui-btn-sm" lay-demo="setChecked">勾选指定节点</button>
       <button type="button" class="layui-btn layui-btn-sm" lay-demo="reload">重载实例</button>
     </div>
-    <!--   <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
-         <legend>无连接线风格</legend>
-       </fieldset>-->
 
 
-    <div class="layui-form-item layui-hide">
-      <input type="button" lay-submit lay-filter="LAY-user-front-submit" id="LAY-user-front-submit" value="确认">
+    <div class="layui-form-item">
+      <div class="layui-input-block">
+        <button type="submit" class="layui-btn" lay-submit="" lay-filter="lay-user-submit">确认</button>
+<!--        <button type="submit" class="layui-btn layui-btn-primary" lay-submit="" lay-filter="lay-user-content">取消</button>-->
+      </div>
     </div>
+
+
   </div>
 
   <script src="../../../../statics/plugins/layui/layui.js"></script>
@@ -55,7 +57,7 @@
     }).extend({
       index: 'index', //主入口模块
       roleform: 'sys/roleform'
-    }).use(['index','form','roleform']);
+    }).use(['index','roleform','role']);
   </script>
 </body>
 </html>

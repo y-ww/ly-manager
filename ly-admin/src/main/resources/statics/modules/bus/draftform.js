@@ -91,7 +91,7 @@ layui.define(['table','form','configs','upload','laytpl'],function (exports) {
                 }else{
                     layer.msg(data.msg,{icon: 2});
                 }
-                table.reload('lay-tab');
+              //  table.reload('lay-tab');
             }
         });
 

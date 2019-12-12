@@ -100,7 +100,7 @@ layui.define(['table','form','configs','upload','laytpl'],function (exports) {
     $.ajax({
         url : configs.base_server + "bus/tc/column",
         type:'post',
-        data:{parentId : 0},
+        //data:{parentId : 0},
         success:function (data) {
 
             var $html = "";
