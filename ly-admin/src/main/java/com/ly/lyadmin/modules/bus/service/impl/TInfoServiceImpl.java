@@ -86,9 +86,12 @@ public class TInfoServiceImpl extends ServiceImpl<TInfoMapper, TInfo> implements
     public Result contentTitleList(Integer pageNo, Integer pageSize, String colid, String ptCode) {
 
         QueryWrapper<TInfo> queryWrapper = new QueryWrapper<>();
+        queryWrapper.select("id","title","summary","min_pic_address");
         queryWrapper.like("colid",colid);
         queryWrapper.like("platform",ptCode);
         queryWrapper.eq("isdelete", Constant.STATUS_ISUSER);
+        queryWrapper.eq("is_fbtype",Constant.STATUS_ISUSER);
+        queryWrapper.orderByDesc("create_time");
         IPage<TInfo> page = new Page<TInfo>(pageNo,pageSize);
         IPage<TInfo> iPage = tInfoMapper.selectPage(page, queryWrapper);
         return Result.ok().put("count",iPage.getTotal()).put("data",iPage.getRecords());

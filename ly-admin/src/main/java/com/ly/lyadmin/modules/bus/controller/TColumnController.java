@@ -45,7 +45,7 @@ public class TColumnController extends AbstractController {
      */
     @ApiOperation(value = "各网站、平台栏目菜单接口" , notes="各网站、平台栏目菜单接口")
     @RequestMapping(value = "/column",method = RequestMethod.POST)
-    public Result columnById(String parentId){
+    public Result columnById(){
 
         // 判断当前登录人所属平台
         SysUser user = getUser();
@@ -55,13 +55,21 @@ public class TColumnController extends AbstractController {
         QueryWrapper<SysUserRole> qwrapper = new QueryWrapper<>();
         qwrapper.eq("user_id",user.getUserId());
         SysUserRole sysUserRole = sysUserRoleService.getOne(qwrapper);
-        // 首页网站
+
+
         QueryWrapper<TColumn> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("pt_code",sysUserRole.getRoleId());
-        queryWrapper.eq("parent_id",parentId);
+
+        queryWrapper.eq("pt_code",sysUserRole.getRoleId());
         queryWrapper.eq("status", Constant.STATUS_ISUSER);
-        queryWrapper.orderByAsc("order_num");
+
+        if(sysUserRole.getRoleId() == 0 || "0".equals(sysUserRole.getRoleId())){
+            queryWrapper.last("limit 10");
+        }else{
+            queryWrapper.orderByAsc("order_num");
+        }
         List<TColumn> list = tColumnService.list(queryWrapper);
+
         return Result.ok().put("columnList",list);
 
     }

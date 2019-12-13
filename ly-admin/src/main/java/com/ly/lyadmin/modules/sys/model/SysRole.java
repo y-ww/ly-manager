@@ -1,10 +1,12 @@
 package com.ly.lyadmin.modules.sys.model;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 public class SysRole implements Serializable {
 
@@ -22,6 +24,9 @@ public class SysRole implements Serializable {
 
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     private Date updateTime;
+
+    @TableField(exist = false)
+    private List<Long> codes; // 菜单列表
 
     private static final long serialVersionUID = 1L;
 
@@ -71,6 +76,15 @@ public class SysRole implements Serializable {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+
+    public List<Long> getCodes() {
+        return codes;
+    }
+
+    public void setCodes(List<Long> codes) {
+        this.codes = codes;
     }
 
     @Override
