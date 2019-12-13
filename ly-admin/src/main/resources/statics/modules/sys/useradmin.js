@@ -71,6 +71,7 @@ layui.define(['table','form','configs'], function(exports){
                     }else{
                         layer.msg("操作失败",{icon: 2});
                     }
+                    table.reload('LAY-table-manage');
                 }
             });
 
@@ -78,6 +79,26 @@ layui.define(['table','form','configs'], function(exports){
 
 
     });
+
+
+    /* 角色列表 */
+    $.ajax({
+        url : configs.base_server + "sys/role/rolelist",
+        type:'post',
+        success:function (data) {
+            var $html = "";
+            if(data.roleList != null){
+                $.each(data.roleList, function (index, item) {
+                        $html += "<option value='" + item.roleId + "'>" + item.roleName + "</option>";
+                });
+                $("select[name='roleId']").append($html);
+
+                //append后必须从新渲染
+                form.render('select');
+            }
+        }
+    })
+
 
     //事件
     var active = {
@@ -259,10 +280,46 @@ layui.define(['table','form','configs'], function(exports){
                     div.find('#'+key +'').attr("checked",true);
                 }
             }
+           $.ajax({
+               url : configs.base_server + "sys/role/rolelistByUserId",
+               type:'post',
+               data:{userId:userdata.userId},
+               success:function (data) {
+                   selectrender(layero,data.roleIds[0]);
+               }
+           })
+
         }
       });
     }
   });
+
+    function selectrender(layero,data_value){
+
+        $.ajax({
+            url : configs.base_server + "sys/role/rolelist",
+            type:'post',
+            success:function (data) {
+                var $html = "";
+                if(data.roleList != null){
+                    $.each(data.roleList, function (index, item) {
+                        $html += "<option value='" + item.roleId + "'>" + item.roleName + "</option>";
+                    });
+
+                    layero.find('iframe').contents().find('[name="roleId"]').append($html);
+
+                    //append后必须从新渲染
+                    form.render('select');
+                }
+                // 渲染子页面下拉框
+                layero.find('iframe').contents().find('[name="roleId"]').val(data_value);
+            }
+        })
+
+
+
+
+    }
 
   exports('useradmin', {})
 });

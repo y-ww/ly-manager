@@ -16,7 +16,7 @@ layui.define(['table','form','configs'], function(exports){
   //用户管理
   table.render({
     elem: '#LAY-table-manage'
-    ,url: configs.base_server + 'sys/role/rolelist'
+    ,url: configs.base_server + 'sys/role/list'
     ,toolbar: true
     ,cols: [[
       {type: 'checkbox', fixed: 'left'}

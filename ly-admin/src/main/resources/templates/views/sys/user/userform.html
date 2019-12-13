@@ -39,6 +39,15 @@
       </div>
     </div>
     <div class="layui-form-item">
+      <label class="layui-form-label">角&emsp;&emsp;色</label>
+      <div class="layui-input-inline" id="layui-input-custom-css5">
+        <select name="roleId" lay-verify="required">
+          <option value="">请选择</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="layui-form-item">
       <label class="layui-form-label">登录权限</label>
       <div class="layui-input-block">
         <input type="checkbox" name="switch" id="status" lay-skin="switch"  lay-text="正常|禁用" >
@@ -54,23 +63,9 @@
   layui.config({
       base: '../../../../statics/modules/' //静态资源所在路径
   }).extend({
-    index: 'index' //主入口模块
-  }).use(['index', 'form', 'upload'], function(){
-    var $ = layui.$
-    ,form = layui.form
-    ,upload = layui.upload ;
-
-/*    upload.render({
-      elem: '#layuiadmin-upload-useradmin'
-      ,url: layui.setter.base + 'json/upload/demo.js'
-      ,accept: 'images'
-      ,method: 'get'
-      ,acceptMime: 'image/!*'
-      ,done: function(res){
-        $(this.item).prev("div").children("input").val(res.data.src)
-      }
-    });*/
-  })
+    index: 'index', //主入口模块
+    useradmin : 'sys/useradmin'
+  }).use(['index', 'form','useradmin'])
   </script>
 </body>
 </html>

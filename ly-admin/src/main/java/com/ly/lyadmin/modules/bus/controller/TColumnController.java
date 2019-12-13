@@ -60,14 +60,14 @@ public class TColumnController extends AbstractController {
         QueryWrapper<TColumn> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("pt_code",sysUserRole.getRoleId());
 
-        queryWrapper.eq("pt_code",sysUserRole.getRoleId());
         queryWrapper.eq("status", Constant.STATUS_ISUSER);
 
         if(sysUserRole.getRoleId() == 0 || "0".equals(sysUserRole.getRoleId())){
             queryWrapper.last("limit 10");
-        }else{
-            queryWrapper.orderByAsc("order_num");
         }
+        /*else{
+            queryWrapper.orderByAsc("order_num");
+        }*/
         List<TColumn> list = tColumnService.list(queryWrapper);
 
         return Result.ok().put("columnList",list);

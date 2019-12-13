@@ -3,6 +3,8 @@ package com.ly.lyadmin.modules.sys.controller;
 import com.ly.common.utils.Result;
 import com.ly.lyadmin.annotation.SysLog;
 import com.ly.lyadmin.modules.sys.model.SysUser;
+import com.ly.lyadmin.modules.sys.model.SysUserRole;
+import com.ly.lyadmin.modules.sys.service.SysUserRoleService;
 import com.ly.lyadmin.modules.sys.service.SysUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -26,12 +28,18 @@ import java.util.List;
 public class SysUserController extends AbstractController{
 
 
+    // 注入另一种方式
+    @Autowired
     private final SysUserService sysUserService;
 
     @Autowired
     public SysUserController(SysUserService sysUserService) {
         this.sysUserService = sysUserService;
     }
+
+
+    @Autowired
+    SysUserRoleService sysUserRoleService;
 
     /**
      *  用户信息
@@ -53,7 +61,9 @@ public class SysUserController extends AbstractController{
     @RequestMapping(value = "/save",method = RequestMethod.POST)
     public Result save(@RequestBody SysUser sysUser){
 
+        // 添加用户
         sysUserService.add(sysUser);
+
 
         return Result.ok();
     }
@@ -85,6 +95,8 @@ public class SysUserController extends AbstractController{
             return Result.error("当前用户不能删除");
         }
         sysUserService.removeByIds(Arrays.asList(userIds));
+        // 删除用户角色
+        sysUserRoleService.removeByIds(Arrays.asList(userIds));
         return Result.ok();
     }
 
