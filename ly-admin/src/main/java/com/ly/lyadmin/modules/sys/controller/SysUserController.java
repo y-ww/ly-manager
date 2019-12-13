@@ -66,7 +66,7 @@ public class SysUserController extends AbstractController{
   //  @ApiOperation(value = "修改用户" , notes="修改用户")
     @RequestMapping(value = "/update",method = RequestMethod.POST)
     public Result update(@RequestBody SysUser sysUser){
-        sysUserService.updateById(sysUser);
+        sysUserService.update(sysUser);
         return Result.ok();
     }
 

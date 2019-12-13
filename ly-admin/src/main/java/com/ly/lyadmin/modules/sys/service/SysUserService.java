@@ -32,4 +32,10 @@ public interface SysUserService extends IService<SysUser> {
      */
     void add(SysUser sysUser);
 
+    /**
+     * 修改用户
+     *
+     */
+    void update(SysUser sysUser);
+
 }

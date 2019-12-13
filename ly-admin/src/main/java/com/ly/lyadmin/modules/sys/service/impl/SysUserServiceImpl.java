@@ -57,4 +57,13 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         sysUser.setCreateBy(ShiroUtils.getUserId());
         this.save(sysUser);
     }
+
+    @Override
+    public void update(SysUser sysUser) {
+        //sha256加密
+        String salt = RandomStringUtils.randomAlphanumeric(20);
+        sysUser.setSalt(salt);
+        sysUser.setPassword(ShiroUtils.sha256(sysUser.getPassword(),salt));
+        sysUserMapper.updateById(sysUser);
+    }
 }
