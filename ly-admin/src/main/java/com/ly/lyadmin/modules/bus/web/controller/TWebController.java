@@ -176,6 +176,27 @@ public class TWebController {
         return Result.ok().put("tInfoList",tInfoList);
     }
 
+
+    /**
+     * @Description: 站内搜索查询接口带分页
+     * @Param:
+     * @Return:
+     * @Author: SLIGHTLEE
+     * @Email: lmm_work@163.com
+     * @Date:
+     */
+    @ApiOperation(value = "站内搜索查询接口带分页" , notes="站内搜索查询接口带分页")
+    @RequestMapping(value = "/searchPage",method = RequestMethod.POST)
+    public Result searchPage(@RequestParam Integer pageNo,@RequestParam Integer pageSize,
+                             @RequestParam String title,@RequestParam String ptCode){
+
+        Result result = tInfoService.searchTitleList(pageNo, pageSize, title, ptCode);
+        return result;
+    }
+
+
+
+
     /**
      * @Description: 轮播查询接口
      * @Param:

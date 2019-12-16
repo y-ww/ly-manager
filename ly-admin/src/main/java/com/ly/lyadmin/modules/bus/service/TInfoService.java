@@ -21,6 +21,12 @@ public interface TInfoService extends IService<TInfo> {
     // PC 端 接口
     Result  contentTitleList(Integer pageNo, Integer pageSize,String colid, String ptCode);
 
+    /**
+     *
+     * 搜索查询接口
+     */
+    Result  searchTitleList(Integer pageNo, Integer pageSize,String title, String ptCode);
+
     // 上一篇
     TInfo preContent(String id);
 

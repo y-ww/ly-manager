@@ -99,6 +99,21 @@ public class TInfoServiceImpl extends ServiceImpl<TInfoMapper, TInfo> implements
     }
 
     @Override
+    public Result searchTitleList(Integer pageNo, Integer pageSize, String title, String ptCode) {
+
+        QueryWrapper<TInfo> queryWrapper = new QueryWrapper<>();
+        queryWrapper.select("id","title");
+        queryWrapper.like("title",title);
+        queryWrapper.eq("platform",ptCode);
+        queryWrapper.eq("isdelete",Constant.STATUS_ISUSER);
+        queryWrapper.eq("is_fbtype",Constant.STATUS_ISUSER);
+        queryWrapper.orderByDesc("create_time");
+        IPage<TInfo> page = new Page<TInfo>(pageNo,pageSize);
+        IPage<TInfo> iPage = tInfoMapper.selectPage(page, queryWrapper);
+        return Result.ok().put("count",iPage.getTotal()).put("data",iPage.getRecords());
+    }
+
+    @Override
     public TInfo preContent(String id) {
         return tInfoMapper.preContent(id);
     }
