@@ -144,8 +144,8 @@ public class TWebController {
         }
         QueryWrapper<TInfo> queryWrapper = new QueryWrapper<>();
         queryWrapper.select("id","title","summary","min_pic_address");
-        queryWrapper.like("colid",colid);
-        queryWrapper.like("platform",ptCode);
+        queryWrapper.eq("colid",colid);
+        queryWrapper.eq("platform",ptCode);
         queryWrapper.eq("isdelete",Constant.STATUS_ISUSER);
         queryWrapper.eq("is_fbtype",Constant.STATUS_ISUSER);
         queryWrapper.orderByDesc("create_time");
@@ -279,4 +279,23 @@ public class TWebController {
 
         return Result.ok().put("tInfo",tInfo).put("preInfo",preInfo).put("nextInfo",nextInfo);
     }
+
+    /**
+     * @Description: 网站动态栏目接口
+     * @Param:
+     * @Return:
+     * @Author: SLIGHTLEE
+     * @Email: lmm_work@163.com
+     * @Date: 2019/12/17 4:39 下午
+     */
+    @ApiOperation(value = "网站动态栏目接口" , notes="网站动态栏目接口")
+    @RequestMapping(value = "/devColumnList",method = RequestMethod.POST)
+    public Result devColumnList(String ptCode){
+        QueryWrapper<TColumn> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("pt_code",ptCode);
+        queryWrapper.eq("show_list",Constant.STATUS_ISUSER);
+        List<TColumn> columnList = tColumnService.list(queryWrapper);
+        return Result.ok().put("devColumnList",columnList);
+    }
+
 }

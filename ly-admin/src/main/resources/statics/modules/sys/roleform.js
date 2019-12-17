@@ -213,7 +213,7 @@ layui.define(['table','form','configs','tree','util'], function(exports){
         var codes = getCheckedId(checkedData);
         console.log(codes);
         // 去除第一位 根节点
-        codes.splice(0,1);
+      //  codes.splice(0,1);
         field.codes = codes;
 
         function getCheckedId(jsonObj) {
@@ -278,9 +278,6 @@ layui.define(['table','form','configs','tree','util'], function(exports){
                 }
             });
         }
-
-
-       /* */
 
     });
 
