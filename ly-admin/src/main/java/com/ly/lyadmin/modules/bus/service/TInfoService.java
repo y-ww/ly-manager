@@ -7,6 +7,7 @@ import com.ly.lyadmin.modules.sys.model.SysUser;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.Map;
 
 public interface TInfoService extends IService<TInfo> {
 
@@ -32,4 +33,18 @@ public interface TInfoService extends IService<TInfo> {
 
     // 下一篇
     TInfo nextContent(String id);
+
+    /**
+     *
+     * 阅读量排行接口
+     */
+    List<Map> readList();
+
+    /**
+     * 积分排行接口
+     *
+     */
+    List<Map> integralList();
+
+
 }

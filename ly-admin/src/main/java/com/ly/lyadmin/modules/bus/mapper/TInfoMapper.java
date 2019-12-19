@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface TInfoMapper extends BaseMapper<TInfo> {
@@ -18,4 +19,9 @@ public interface TInfoMapper extends BaseMapper<TInfo> {
 
     // 下一篇
     TInfo nextContent(String id);
+
+    List<Map> readList();
+
+    List<Map> integralList();
+
 }

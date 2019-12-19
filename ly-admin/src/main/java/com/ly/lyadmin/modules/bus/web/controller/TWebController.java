@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Description: TODO
@@ -297,5 +298,60 @@ public class TWebController {
         List<TColumn> columnList = tColumnService.list(queryWrapper);
         return Result.ok().put("devColumnList",columnList);
     }
+
+    /**
+     * @Description: 移动端 新闻动态接口
+     * @Param:
+     * @Return:
+     * @Author: SLIGHTLEE
+     * @Email: lmm_work@163.com
+     * @Date: 2019/12/17 4:39 下午
+     */
+    @ApiOperation(value = "移动端新闻动态接口" , notes="移动端新闻动态接口")
+    @RequestMapping(value = "/newsList",method = RequestMethod.POST)
+    public Result newsList(String ptCode){
+
+        QueryWrapper<TInfo> queryWrapper = new QueryWrapper<>();
+        queryWrapper.select("id","title");
+        queryWrapper.eq("platform",ptCode);
+        queryWrapper.eq("isdelete",Constant.STATUS_ISUSER);
+        queryWrapper.eq("is_fbtype",Constant.STATUS_ISUSER);
+        queryWrapper.orderByDesc("create_time");
+        queryWrapper.last("limit 6");
+        List<TInfo> tInfoList = tInfoService.list(queryWrapper);
+        return Result.ok().put("tInfoList",tInfoList);
+    }
+
+    /**
+     * @Description: 阅读量排行接口
+     * @Param:
+     * @Return:
+     * @Author: SLIGHTLEE
+     * @Email: lmm_work@163.com
+     * @Date: 2019/12/19 11:40 上午
+     */
+    @ApiOperation(value = "阅读量排行接口" , notes="阅读量排行接口")
+    @RequestMapping(value = "/readList",method = RequestMethod.GET)
+    public Result readList(){
+        List<Map> mapList = tInfoService.readList();
+        return Result.ok().put("data",mapList);
+    }
+
+    /**
+     * @Description: 积分排行接口
+     * @Param:
+     * @Return:
+     * @Author: SLIGHTLEE
+     * @Email: lmm_work@163.com
+     * @Date: 2019/12/19 11:40 上午
+     */
+    @ApiOperation(value = "积分排行接口" , notes="积分排行接口")
+    @RequestMapping(value = "/integralList",method = RequestMethod.GET)
+    public Result integralList(){
+        List<Map> mapList = tInfoService.integralList();
+        return Result.ok().put("data",mapList);
+    }
+
+
 
 }

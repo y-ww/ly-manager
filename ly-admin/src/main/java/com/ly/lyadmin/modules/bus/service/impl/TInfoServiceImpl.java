@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Description: TODO
@@ -128,6 +129,16 @@ public class TInfoServiceImpl extends ServiceImpl<TInfoMapper, TInfo> implements
     @Override
     public TInfo nextContent(String id) {
         return tInfoMapper.nextContent(id);
+    }
+
+    @Override
+    public List<Map> readList() {
+        return tInfoMapper.readList();
+    }
+
+    @Override
+    public List<Map> integralList() {
+        return tInfoMapper.integralList();
     }
 
 }
