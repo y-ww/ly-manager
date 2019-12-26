@@ -14,6 +14,8 @@ import com.ly.lyadmin.modules.sys.service.SysRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @Description: TODO
  * 
@@ -37,5 +39,10 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         IPage<SysRole> page = new Page<SysRole>(pageNo,pageSize);
         IPage<SysRole> iPage = sysRoleMapper.selectPage(page, wrapper);
         return Result.ok().put("count",iPage.getTotal()).put("data",iPage.getRecords());
+    }
+
+    @Override
+    public List<Long> rolelistByUserId(Long userId) {
+        return sysRoleMapper.rolelistByUserId(userId);
     }
 }

@@ -1,5 +1,6 @@
 package com.ly.lyadmin.modules.sys.model;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -44,6 +45,9 @@ public class SysUser implements Serializable {
     private Date updateTime;
 
     private Long createBy;
+
+    @TableField(exist = false)
+    private Long roleId;
 
     public Long getUserId() {
         return userId;
@@ -131,6 +135,14 @@ public class SysUser implements Serializable {
 
     public void setCreateBy(Long createBy) {
         this.createBy = createBy;
+    }
+
+    public Long getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(Long roleId) {
+        this.roleId = roleId;
     }
 
     @Override

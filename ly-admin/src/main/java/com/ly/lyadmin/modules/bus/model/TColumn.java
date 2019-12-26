@@ -34,9 +34,11 @@ public class TColumn implements Serializable {
 
     private Integer status;
 
+    private Integer showList;
+
 
     /**
-     * 父菜单名称
+     * 父栏目名称
      */
     @TableField(exist = false)
     private String parentName;
@@ -106,6 +108,14 @@ public class TColumn implements Serializable {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public Integer getShowList() {
+        return showList;
+    }
+
+    public void setShowList(Integer showList) {
+        this.showList = showList;
     }
 
     public String getParentName() {

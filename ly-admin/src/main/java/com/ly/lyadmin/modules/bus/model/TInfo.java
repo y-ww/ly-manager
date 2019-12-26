@@ -43,7 +43,7 @@ public class TInfo implements Serializable {
 
     private Integer orderNum;//排序字段
 
-    private String integral;//积分
+    private Integer integral;//积分
 
     private Integer amountRead;//阅读量
 
@@ -164,11 +164,11 @@ public class TInfo implements Serializable {
         this.orderNum = orderNum;
     }
 
-    public String getIntegral() {
+    public Integer getIntegral() {
         return integral;
     }
 
-    public void setIntegral(String integral) {
+    public void setIntegral(Integer integral) {
         this.integral = integral;
     }
 

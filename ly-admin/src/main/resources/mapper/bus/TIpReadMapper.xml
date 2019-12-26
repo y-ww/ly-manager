@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ly.lyadmin.modules.bus.mapper.TIpReadMapper" >
+  <resultMap id="BaseResultMap" type="com.ly.lyadmin.modules.bus.model.TIpRead" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="ip" property="ip" jdbcType="VARCHAR" />
+    <result column="read_count" property="readCount" jdbcType="VARCHAR" />
+    <result column="content_id" property="contentId" jdbcType="VARCHAR" />
+    <result column="visit_time" property="visitTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+  <select id="findByIdIp" resultType="com.ly.lyadmin.modules.bus.model.TIpRead">
+    select * from t_ip_read tir where tir.content_id = #{contentId} and tir.ip = #{ip} and to_days(tir.visit_time) = to_days(now())
+  </select>
+
+
+</mapper>

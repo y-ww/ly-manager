@@ -6,7 +6,7 @@ layui.define(function (exports) {
 
     var configs ={
         base_server : 'http://127.0.0.1:8866/',
-       // base_server : 'http://140.143.13.167:8866/',
+       // base_server : 'http://39.99.186.91:8866/',
         tableName: 'LY',    // 存储表名
         autoRender: false,      // 窗口大小改变后是否自动重新渲染表格，解决layui数据表格非响应式的问题
         engine: '.html',        //视图文件后缀名

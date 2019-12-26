@@ -4,6 +4,7 @@ package com.ly.lyadmin.modules.sys.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ly.common.utils.Constant;
 import com.ly.lyadmin.modules.sys.mapper.SysMenuMapper;
+import com.ly.lyadmin.modules.sys.mapper.SysUserMapper;
 import com.ly.lyadmin.modules.sys.model.SysMenu;
 import com.ly.lyadmin.modules.sys.service.SysMenuService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,9 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     @Autowired
     SysMenuMapper sysMenuMapper;
 
+    @Autowired
+    SysUserMapper sysUserMapper;
+
     @Override
     public List<SysMenu> queryListParentId(Long parentId, List<Long> menuIdList) {
         List<SysMenu> menuList = queryListParentId(parentId);
@@ -32,8 +36,8 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
             return  menuList;
         }
         List<SysMenu>  userMenuList = new ArrayList<>();
-        for (SysMenu sysMenu : userMenuList){
-            if (userMenuList.contains(sysMenu.getMenuId())){
+        for (SysMenu sysMenu : menuList){
+            if (menuIdList.contains(sysMenu.getMenuId())){
                 userMenuList.add(sysMenu);
             }
         }
@@ -65,9 +69,9 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         if(userId == Constant.SUPER_ADMIN){
             return getAllMenuList(null);
         }
-         // 用户菜单列表
-
-        return null;
+        //用户菜单列表
+        List<Long> menuIdList = sysUserMapper.queryAllMenuId(userId);
+        return getAllMenuList(menuIdList);
     }
 
 
@@ -86,6 +90,9 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     }
 
 
+    /**
+     * 获取所有菜单列表
+     */
     public List<SysMenu> getAllMenuList(List<Long> menuIdList){
          // 查询根菜单 列表
           List<SysMenu> menuList = queryListParentId(0L, menuIdList);

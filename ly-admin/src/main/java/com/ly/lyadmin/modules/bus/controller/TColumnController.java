@@ -12,9 +12,7 @@ import com.ly.lyadmin.modules.sys.service.SysUserRoleService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -24,7 +22,6 @@ import java.util.List;
  * @Date 2019/11/25 3:12 下午
  * @Version V1.0
  */
-@Api(description = "平台栏目接口")
 @RestController
 @RequestMapping("/bus/tc")
 public class TColumnController extends AbstractController {
@@ -43,7 +40,6 @@ public class TColumnController extends AbstractController {
      * @Email: lmm_work@163.com
      * @Date: 2019/11/27 4:53 下午
      */
-    @ApiOperation(value = "各网站、平台栏目菜单接口" , notes="各网站、平台栏目菜单接口")
     @RequestMapping(value = "/column",method = RequestMethod.POST)
     public Result columnById(){
 
@@ -60,17 +56,92 @@ public class TColumnController extends AbstractController {
         QueryWrapper<TColumn> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("pt_code",sysUserRole.getRoleId());
 
-        queryWrapper.eq("pt_code",sysUserRole.getRoleId());
         queryWrapper.eq("status", Constant.STATUS_ISUSER);
 
         if(sysUserRole.getRoleId() == 0 || "0".equals(sysUserRole.getRoleId())){
             queryWrapper.last("limit 10");
-        }else{
-            queryWrapper.orderByAsc("order_num");
         }
+        /*else{
+            queryWrapper.orderByAsc("order_num");
+        }*/
         List<TColumn> list = tColumnService.list(queryWrapper);
 
         return Result.ok().put("columnList",list);
+
+    }
+
+    /**
+     * @Description: 栏目列表显示 后台控制栏目是否显示到网站首页 导航
+     * @Param:
+     * @Return:
+     * @Author: SLIGHTLEE
+     * @Email: lmm_work@163.com
+     * @Date: 2019/12/16 4:19 下午
+     */
+
+    @RequestMapping(value = "/columnList")
+    public Result columnList(@RequestParam Integer page, @RequestParam Integer limit){
+
+        // 根据当前登录账号 判断所属平台
+        SysUser user = getUser();
+        QueryWrapper<SysUserRole> qwrapper = new QueryWrapper<>();
+        qwrapper.eq("user_id",user.getUserId());
+        SysUserRole sysUserRole = sysUserRoleService.getOne(qwrapper);
+
+        Result result = tColumnService.columnList(page, limit, sysUserRole.getRoleId());
+
+        return result;
+    }
+
+
+    /**
+     * @Description: 修改状态 显示
+     * @Param:
+     * @Return:
+     * @Author: SLIGHTLEE
+     * @Email: lmm_work@163.com
+     * @Date: 2019/12/17 2:36 下午
+     */
+    @RequestMapping(value = "/update",method = RequestMethod.POST)
+    public Result update(@RequestBody TColumn tColumn){
+
+        tColumnService.updateById(tColumn);
+
+        return Result.ok();
+    }
+
+    /**
+     * @Description: 所有栏目列表
+     * @Param:
+     * @Return:
+     * @Author: SLIGHTLEE
+     * @Email: lmm_work@163.com
+     * @Date: 2019/12/23 3:26 下午
+     */
+    @RequestMapping(value = "/list",method = RequestMethod.GET)
+    public Result list(){
+
+        // 判断当前登录人所属平台
+        SysUser user = getUser();
+      /*  if(user.getUserId() == Constant.SUPER_ADMIN){
+            // 所有平台权限
+        }*/
+        QueryWrapper<SysUserRole> qwrapper = new QueryWrapper<>();
+        qwrapper.eq("user_id",user.getUserId());
+        SysUserRole sysUserRole = sysUserRoleService.getOne(qwrapper);
+
+        QueryWrapper<TColumn> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("pt_code",sysUserRole.getRoleId());
+        queryWrapper.eq("status", Constant.STATUS_ISUSER);
+        List<TColumn> columnList = tColumnService.list(queryWrapper);
+        /*for (TColumn tColumn : columnList) {
+            TColumn column = tColumnService.getById(tColumn.getParentId());
+            if(column != null){
+                tColumn.setParentName(column.getColumnName());
+            }
+        }*/
+
+        return Result.ok().put("columnList",columnList);
 
     }
 }

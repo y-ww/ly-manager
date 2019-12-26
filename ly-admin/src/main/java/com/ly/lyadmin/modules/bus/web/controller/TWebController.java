@@ -2,6 +2,9 @@ package com.ly.lyadmin.modules.bus.web.controller;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.ly.common.utils.DateUtil;
+import com.ly.common.utils.DateUtils;
+import com.ly.common.utils.IPUtils;
 import com.ly.common.utils.Result;
 import com.ly.lyadmin.modules.bus.model.*;
 import com.ly.lyadmin.modules.bus.service.*;
@@ -14,7 +17,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Description: TODO
@@ -41,6 +47,9 @@ public class TWebController {
 
     @Autowired
     TContentCarouselService tContentCarouselService;
+
+    @Autowired
+    TIpReadService tIpReadService;
 
 
     /**
@@ -98,7 +107,29 @@ public class TWebController {
      */
     @ApiOperation(value = "新闻动态内容查询接口" , notes="新闻动态内容查询接口")
     @RequestMapping(value = "/searchContentById",method = RequestMethod.POST)
-    public Result searchContentById(String id){
+    public Result searchContentById(String id,HttpServletRequest request){
+
+        QueryWrapper<TIpRead> wrapper = new QueryWrapper<>();
+
+        // 根据 ip  id  当前访问时间 查询 用户是否是同一天访问，如果不是 则 阅读量 +1
+        String ipAddr = IPUtils.getIpAddr(request);
+        TIpRead byIdIp = tIpReadService.findByIdIp(id, ipAddr);
+        if(byIdIp == null){
+            // 查询出 平台id
+            QueryWrapper<TInfo> wrap = new QueryWrapper<>();
+            wrap.eq("id",id);
+            TInfo tInfo = tInfoService.getOne(wrap);
+            // 插入数据
+            TIpRead tIpRead = new TIpRead();
+            tIpRead.setIp(ipAddr);
+            tIpRead.setContentId(id);
+            tIpRead.setReadCount(1);
+            tIpRead.setPlatform(tInfo.getPlatform());
+            tIpRead.setVisitTime(new Date());
+            tIpReadService.save(tIpRead);
+        }
+
+        // 查询内容
         QueryWrapper<TInfo> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("id",id);
         queryWrapper.eq("isdelete",Constant.STATUS_ISUSER);
@@ -144,8 +175,8 @@ public class TWebController {
         }
         QueryWrapper<TInfo> queryWrapper = new QueryWrapper<>();
         queryWrapper.select("id","title","summary","min_pic_address");
-        queryWrapper.like("colid",colid);
-        queryWrapper.like("platform",ptCode);
+        queryWrapper.eq("colid",colid);
+        queryWrapper.eq("platform",ptCode);
         queryWrapper.eq("isdelete",Constant.STATUS_ISUSER);
         queryWrapper.eq("is_fbtype",Constant.STATUS_ISUSER);
         queryWrapper.orderByDesc("create_time");
@@ -175,6 +206,27 @@ public class TWebController {
         List<TInfo> tInfoList = tInfoService.list(queryWrapper);
         return Result.ok().put("tInfoList",tInfoList);
     }
+
+
+    /**
+     * @Description: 站内搜索查询接口带分页
+     * @Param:
+     * @Return:
+     * @Author: SLIGHTLEE
+     * @Email: lmm_work@163.com
+     * @Date:
+     */
+    @ApiOperation(value = "站内搜索查询接口带分页" , notes="站内搜索查询接口带分页")
+    @RequestMapping(value = "/searchPage",method = RequestMethod.POST)
+    public Result searchPage(@RequestParam Integer pageNo,@RequestParam Integer pageSize,
+                             @RequestParam String title,@RequestParam String ptCode){
+
+        Result result = tInfoService.searchTitleList(pageNo, pageSize, title, ptCode);
+        return result;
+    }
+
+
+
 
     /**
      * @Description: 轮播查询接口
@@ -258,4 +310,78 @@ public class TWebController {
 
         return Result.ok().put("tInfo",tInfo).put("preInfo",preInfo).put("nextInfo",nextInfo);
     }
+
+    /**
+     * @Description: 网站动态栏目接口
+     * @Param:
+     * @Return:
+     * @Author: SLIGHTLEE
+     * @Email: lmm_work@163.com
+     * @Date: 2019/12/17 4:39 下午
+     */
+    @ApiOperation(value = "网站动态栏目接口" , notes="网站动态栏目接口")
+    @RequestMapping(value = "/devColumnList",method = RequestMethod.POST)
+    public Result devColumnList(String ptCode){
+        QueryWrapper<TColumn> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("pt_code",ptCode);
+        queryWrapper.eq("show_list",Constant.STATUS_ISUSER);
+        List<TColumn> columnList = tColumnService.list(queryWrapper);
+        return Result.ok().put("devColumnList",columnList);
+    }
+
+    /**
+     * @Description: 移动端 新闻动态接口
+     * @Param:
+     * @Return:
+     * @Author: SLIGHTLEE
+     * @Email: lmm_work@163.com
+     * @Date: 2019/12/17 4:39 下午
+     */
+    @ApiOperation(value = "移动端新闻动态接口" , notes="移动端新闻动态接口")
+    @RequestMapping(value = "/newsList",method = RequestMethod.POST)
+    public Result newsList(String ptCode){
+
+        QueryWrapper<TInfo> queryWrapper = new QueryWrapper<>();
+        queryWrapper.select("id","title");
+        queryWrapper.eq("platform",ptCode);
+        queryWrapper.eq("isdelete",Constant.STATUS_ISUSER);
+        queryWrapper.eq("is_fbtype",Constant.STATUS_ISUSER);
+        queryWrapper.orderByDesc("create_time");
+        queryWrapper.last("limit 6");
+        List<TInfo> tInfoList = tInfoService.list(queryWrapper);
+        return Result.ok().put("tInfoList",tInfoList);
+    }
+
+    /**
+     * @Description: 阅读量排行接口
+     * @Param:
+     * @Return:
+     * @Author: SLIGHTLEE
+     * @Email: lmm_work@163.com
+     * @Date: 2019/12/19 11:40 上午
+     */
+    @ApiOperation(value = "阅读量排行接口" , notes="阅读量排行接口")
+    @RequestMapping(value = "/readList",method = RequestMethod.GET)
+    public Result readList(){
+        List<Map> mapList = tInfoService.readList();
+        return Result.ok().put("data",mapList);
+    }
+
+    /**
+     * @Description: 积分排行接口
+     * @Param:
+     * @Return:
+     * @Author: SLIGHTLEE
+     * @Email: lmm_work@163.com
+     * @Date: 2019/12/19 11:40 上午
+     */
+    @ApiOperation(value = "积分排行接口" , notes="积分排行接口")
+    @RequestMapping(value = "/integralList",method = RequestMethod.GET)
+    public Result integralList(){
+        List<Map> mapList = tInfoService.integralList();
+        return Result.ok().put("data",mapList);
+    }
+
+
+
 }

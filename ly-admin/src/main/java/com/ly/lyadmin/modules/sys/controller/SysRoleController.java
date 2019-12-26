@@ -42,13 +42,44 @@ public class SysRoleController {
      * @Email: lmm_work@163.com
      * @Date: 2019/12/3 4:46 下午
      */
-    @RequestMapping("/rolelist")
+    @RequestMapping("/list")
     public Result list(@RequestParam Integer page, @RequestParam Integer limit,
                        @RequestParam(required = false) String searchKey,
                        @RequestParam(required = false) String searchValue){
         Result r = sysRoleService.getRoleList(page, limit, searchKey, searchValue);
         return r;
     }
+
+
+    /**
+     * @Description: 角色列表信息
+     * @Param:
+     * @Return:
+     * @Author: SLIGHTLEE
+     * @Email: lmm_work@163.com
+     * @Date: 2019/12/13 4:11 下午
+     */
+    @RequestMapping("/rolelist")
+    public Result rolelist(){
+        List<SysRole> roleList = sysRoleService.list();
+        return Result.ok().put("roleList",roleList);
+    }
+
+    /**
+     * @Description: 根据用户编号查询角色编号
+     * @Param:
+     * @Return:
+     * @Author: SLIGHTLEE
+     * @Email: lmm_work@163.com
+     * @Date: 2019/12/13 5:21 下午
+     */
+    @RequestMapping("/rolelistByUserId")
+    public Result rolelistByUserId(Long userId){
+        List<Long> roleIds = sysRoleService.rolelistByUserId(userId);
+        return Result.ok().put("roleIds",roleIds);
+    }
+
+
 
     /**
      * 角色信息
