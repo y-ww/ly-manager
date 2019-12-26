@@ -184,7 +184,7 @@ layui.config({
             }
             //    console.log(arrayToTree(newList , 0));   // 第一级的父目录id是0；写死调用
 
-            alert(authMenulList);
+           // alert(authMenulList);
             console.log(authMenulList);
 
             /*for (let i = 0; i < authMenulList.length ; i++) {
