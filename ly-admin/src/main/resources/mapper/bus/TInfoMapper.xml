@@ -43,9 +43,9 @@
   </select>
 
   <select id="readList" resultType="java.util.Map">
-    select pl.*,st.keyvalue as ptname from (
-    select ti.platform,sum(ti.amount_read) as readcounts from t_info ti  WHERE ti.platform not in (0) GROUP BY ti.platform
-    ) pl left join (select * from t_dict where keyname = 'SDPT') st on pl.platform = st.keycode order by pl.readcounts desc
+   		 select IFNULL(pl.readcounts,0) as readcounts,st.keycode as platform,st.keyvalue as ptname from (
+			select tir.platform,sum(tir.read_count) as readcounts from t_ip_read tir WHERE tir.platform not in (0) GROUP BY tir.platform
+    ) pl right join (select * from t_dict where keyname = 'SDPT') st on pl.platform = st.keycode order by pl.readcounts desc;
   </select>
 
   <select id="integralList" resultType="java.util.Map">

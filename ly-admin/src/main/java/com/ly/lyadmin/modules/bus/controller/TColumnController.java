@@ -109,4 +109,39 @@ public class TColumnController extends AbstractController {
 
         return Result.ok();
     }
+
+    /**
+     * @Description: 所有栏目列表
+     * @Param:
+     * @Return:
+     * @Author: SLIGHTLEE
+     * @Email: lmm_work@163.com
+     * @Date: 2019/12/23 3:26 下午
+     */
+    @RequestMapping(value = "/list",method = RequestMethod.GET)
+    public Result list(){
+
+        // 判断当前登录人所属平台
+        SysUser user = getUser();
+      /*  if(user.getUserId() == Constant.SUPER_ADMIN){
+            // 所有平台权限
+        }*/
+        QueryWrapper<SysUserRole> qwrapper = new QueryWrapper<>();
+        qwrapper.eq("user_id",user.getUserId());
+        SysUserRole sysUserRole = sysUserRoleService.getOne(qwrapper);
+
+        QueryWrapper<TColumn> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("pt_code",sysUserRole.getRoleId());
+        queryWrapper.eq("status", Constant.STATUS_ISUSER);
+        List<TColumn> columnList = tColumnService.list(queryWrapper);
+        /*for (TColumn tColumn : columnList) {
+            TColumn column = tColumnService.getById(tColumn.getParentId());
+            if(column != null){
+                tColumn.setParentName(column.getColumnName());
+            }
+        }*/
+
+        return Result.ok().put("columnList",columnList);
+
+    }
 }

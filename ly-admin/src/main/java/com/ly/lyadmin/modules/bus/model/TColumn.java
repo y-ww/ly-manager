@@ -38,7 +38,7 @@ public class TColumn implements Serializable {
 
 
     /**
-     * 父菜单名称
+     * 父栏目名称
      */
     @TableField(exist = false)
     private String parentName;

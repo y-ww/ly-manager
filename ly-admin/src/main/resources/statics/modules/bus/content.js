@@ -1,12 +1,17 @@
 /**
  *  内容管理
  */
-layui.define(['table','form','configs','upload','laytpl'],function (exports) {
+layui.config({
+    base : '../../../../statics/modules/treeSelect/'
+}).extend({
+    treeSelect : 'treeSelect'
+}).define(['table','form','configs','treeSelect','upload','laytpl'],function (exports) {
 
     var $ = layui.$,
         table = layui.table,
         form = layui.form,
         configs = layui.configs,
+        treeSelect = layui.treeSelect,
         upload = layui.upload,
         laytpl= layui.laytpl;
 
@@ -117,6 +122,140 @@ layui.define(['table','form','configs','upload','laytpl'],function (exports) {
             }
         }
     })
+
+
+    $.ajax({
+        url: configs.base_server + 'bus/tc/list'
+        ,type:'get'
+        ,success:function (data) {
+            var columnList = data.columnList;
+            console.log(columnList);
+
+            var newList = newMenuList(columnList);
+
+            function newMenuList(arr) {
+
+                let treeArr = arr;
+                let temp = [];
+
+                treeArr.forEach((item, index) => {
+
+                    let newTreeArr = treeArr;
+
+                    newTreeArr[index] = {};
+                    newTreeArr[index].id = item.id;
+                    newTreeArr[index].parentId = item.parentId;
+                    newTreeArr[index].name = item.columnName;
+                    newTreeArr[index].open = 'false';
+
+                    temp.push(newTreeArr[index]);
+                   
+                });
+
+                return temp;
+            }
+
+            var authMenulList = arrayToTree(newList , 0);
+
+            function arrayToTree(arr, parentId) {
+
+                //  arr 是返回的数据  parendId 父id
+                let temp = [];
+
+                let treeArr = arr;
+
+                treeArr.forEach((item, index) => {
+
+                    if (item.parentId == parentId) {
+
+                        if (arrayToTree(treeArr, treeArr[index].id).length > 0) {
+
+                            // 递归调用此函数
+
+                           treeArr[index].children = arrayToTree(treeArr, treeArr[index].id);
+                        }
+
+                        temp.push(treeArr[index]);
+
+                    }
+
+                });
+                return temp;
+            }
+            //    console.log(arrayToTree(newList , 0));   // 第一级的父目录id是0；写死调用
+
+            alert(authMenulList);
+            console.log(authMenulList);
+
+            /*for (let i = 0; i < authMenulList.length ; i++) {
+                if(authMenulList[i].hasOwnProperty('children')){
+                    // 得到子类的值，并对子类值 转换json 字符串
+                   var newChildren = authMenulList[i].children;
+                   let nchildren = JSON.stringify(newChildren);
+                    // 移除子类
+                    delete authMenulList[i].children;
+                    var ccc = authMenulList[i];
+                    // 对当前对象 转换json 字符串
+                    let curList = JSON.stringify(authMenulList[i]);
+                    // 添加子类
+                    curList.children = nchildren;
+                    curList;
+                    console.log(true);
+                }else{
+                    console.log(false);
+                }
+            }*/
+
+
+            treeSelect.render({
+                // 选择器
+                elem: '#tree',
+                // 数据
+                data: authMenulList,
+                // 请求头
+                headers: {},
+                // 异步加载方式：get/post，默认get
+                type: 'get',
+                // 占位符
+                placeholder: '修改默认提示信息',
+                // 是否开启搜索功能：true/false，默认false
+                search: true,
+                // 一些可定制的样式
+                style: {
+                    folder: {
+                        enable: false
+                    },
+                    line: {
+                        enable: true
+                    }
+                },
+                // 点击回调
+                click: function(d){
+                    console.log(d);
+                },
+                // 加载完成后的回调函数
+                success: function (d) {
+                    console.log(d);
+//                选中节点，根据id筛选
+                    //     treeSelect.checkNode('tree', 5);
+
+                    console.log($('#tree').val());
+
+//                获取zTree对象，可以调用zTree方法
+                    var treeObj = treeSelect.zTree('tree');
+                    console.log(treeObj);
+
+//                刷新树结构
+                    treeSelect.refresh('tree');
+                }
+            });
+
+
+        }
+
+    });
+
+
 
 
 

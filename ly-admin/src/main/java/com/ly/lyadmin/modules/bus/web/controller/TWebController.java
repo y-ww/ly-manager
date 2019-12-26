@@ -2,6 +2,9 @@ package com.ly.lyadmin.modules.bus.web.controller;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.ly.common.utils.DateUtil;
+import com.ly.common.utils.DateUtils;
+import com.ly.common.utils.IPUtils;
 import com.ly.common.utils.Result;
 import com.ly.lyadmin.modules.bus.model.*;
 import com.ly.lyadmin.modules.bus.service.*;
@@ -14,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -42,6 +47,9 @@ public class TWebController {
 
     @Autowired
     TContentCarouselService tContentCarouselService;
+
+    @Autowired
+    TIpReadService tIpReadService;
 
 
     /**
@@ -99,7 +107,29 @@ public class TWebController {
      */
     @ApiOperation(value = "新闻动态内容查询接口" , notes="新闻动态内容查询接口")
     @RequestMapping(value = "/searchContentById",method = RequestMethod.POST)
-    public Result searchContentById(String id){
+    public Result searchContentById(String id,HttpServletRequest request){
+
+        QueryWrapper<TIpRead> wrapper = new QueryWrapper<>();
+
+        // 根据 ip  id  当前访问时间 查询 用户是否是同一天访问，如果不是 则 阅读量 +1
+        String ipAddr = IPUtils.getIpAddr(request);
+        TIpRead byIdIp = tIpReadService.findByIdIp(id, ipAddr);
+        if(byIdIp == null){
+            // 查询出 平台id
+            QueryWrapper<TInfo> wrap = new QueryWrapper<>();
+            wrap.eq("id",id);
+            TInfo tInfo = tInfoService.getOne(wrap);
+            // 插入数据
+            TIpRead tIpRead = new TIpRead();
+            tIpRead.setIp(ipAddr);
+            tIpRead.setContentId(id);
+            tIpRead.setReadCount(1);
+            tIpRead.setPlatform(tInfo.getPlatform());
+            tIpRead.setVisitTime(new Date());
+            tIpReadService.save(tIpRead);
+        }
+
+        // 查询内容
         QueryWrapper<TInfo> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("id",id);
         queryWrapper.eq("isdelete",Constant.STATUS_ISUSER);
